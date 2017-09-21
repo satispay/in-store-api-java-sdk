@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.satispay.instore.client.controller.SecondPageController">
+    <HBox>
+        <padding>
+            <Insets left="10" right="10"/>
+        </padding>
+        <VBox HBox.hgrow="ALWAYS">
+            <VBox>
+                <padding>
+                    <Insets top="10" bottom="10"/>
+                </padding>
+                <HBox>
+                    <HBox>
+                        <padding>
+                            <Insets right="10"/>
+                        </padding>
+                        <Button text="retieve shop Info" fx:id="retrieveInfoButton"/>
+                    </HBox>
+
+                    <HBox HBox.hgrow="ALWAYS">
+                        <padding>
+                            <Insets right="10"/>
+                        </padding>
+                        <TextField fx:id="profileMeInfo" editable="false" HBox.hgrow="ALWAYS"/>
+                    </HBox>
+
+                    <ImageView fx:id="profileImage">
+                        <Image requestedHeight="60" requestedWidth="60" url="/images/profile_general.png"/>
+                    </ImageView>
+                </HBox>
+            </VBox>
+            <VBox>
+                <padding>
+                    <Insets top="10" bottom="10"/>
+                </padding>
+                <HBox>
+                    <Button fx:id="pendingTransactions" text="Retrieve pending transactions"/>
+                    <Button fx:id="historyTransactions" text="Retrieve transaction history"/>
+                </HBox>
+                <TableView fx:id="transactionsTable" maxHeight="200"/>
+                <HBox>
+                    <Button text="Accept" fx:id="acceptButton"/>
+                    <Button text="Refuse" fx:id="refuseButton"/>
+                    <Button text="Refund" fx:id="refundButton"/>
+                    <HBox alignment="CENTER">
+                        <padding>
+                            <Insets left="10"/>
+                        </padding>
+                        <Label text="Operation result: "/>
+                        <Label fx:id="result"/>
+                    </HBox>
+                </HBox>
+            </VBox>
+        </VBox>
+        <padding>
+            <Insets left="10" right="10"/>
+        </padding>
+    </HBox>
+</VBox>

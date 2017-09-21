@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<TabPane fx:id="viewWrapper" xmlns:fx="http://javafx.com/fxml/1">
+    <Tab text="DH" closable="false">
+        <fx:include fx:id="fooTabPage" source="first_page.fxml"/>
+    </Tab>
+    <Tab text="ACTIVE" closable="false">
+        <fx:include fx:id="barTabPage" source="second_page.fxml"/>
+    </Tab>
+</TabPane>
