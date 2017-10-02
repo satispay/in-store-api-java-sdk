@@ -1,5 +1,6 @@
 package com.satispay.instore.client.data;
 
+import com.satispay.instore.client.SatispayInStoreApplication;
 import com.satispay.protocore.SatispayContext;
 import com.satispay.protocore.dh.DHFlow;
 import com.satispay.protocore.dh.UptimeMillisProvider;
@@ -25,7 +26,7 @@ public class DHFlowClientImpl implements DHFlow {
 
     @Override
     public SatispayContext getSatispayContext() {
-        return SatispayContext.STAGING;
+        return SatispayInStoreApplication.SATISPAY_CONTEXT;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.satispay.instore.client;
 
+import com.satispay.protocore.SatispayContext;
 import com.satispay.protocore.active.SdkDeviceInfo;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -13,8 +14,8 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class SatispayInStoreApplication extends Application {
+    public final static SatispayContext SATISPAY_CONTEXT = SatispayContext.STAGING;
 
-    // ==> this object is used to pass some implementor info
     public final static SdkDeviceInfo SDK_DEVICE_INFO = new SdkDeviceInfo(
             "device",
             "My OS name",

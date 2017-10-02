@@ -57,7 +57,7 @@ public class PersistenceProtoCoreClientImpl implements PersistenceProtoCore {
         return new ProtoCoreProvider() {
             @Override
             public SatispayContext getSatispayContext() {
-                return SatispayContext.STAGING;
+                return SatispayInStoreApplication.SATISPAY_CONTEXT;
             }
 
             @Override
