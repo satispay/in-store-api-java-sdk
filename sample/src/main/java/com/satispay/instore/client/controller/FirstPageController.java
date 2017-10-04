@@ -5,6 +5,7 @@ import com.satispay.instore.client.data.DHFlowClientImpl;
 import com.satispay.instore.client.data.PersistenceProtoCoreClientImpl;
 import com.satispay.protocore.active.PersistenceProtoCore;
 import com.satispay.protocore.active.ProtoCoreHttpClientProvider;
+import com.satispay.protocore.crypto.Base64Utils;
 import com.satispay.protocore.dh.DHFlow;
 import com.satispay.protocore.dh.DHValues;
 import com.satispay.protocore.errors.ProtoCoreError;
