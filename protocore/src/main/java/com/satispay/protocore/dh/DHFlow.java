@@ -2,6 +2,7 @@ package com.satispay.protocore.dh;
 
 import com.google.gson.Gson;
 import com.satispay.protocore.SatispayContext;
+import com.satispay.protocore.crypto.Base64Utils;
 import com.satispay.protocore.crypto.CryptoUtils;
 import com.satispay.protocore.dh.beans.*;
 import com.satispay.protocore.errors.ProtoCoreError;
@@ -17,7 +18,6 @@ import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.UUID;
 
 /**
@@ -82,7 +82,7 @@ public interface DHFlow {
             try {
                 getDHValues().setUuid(UUID.randomUUID());
                 String key = getSatispayContext().getPublicKey();
-                String encryptedUuid = Base64.getEncoder().encodeToString(CryptoUtils.encryptRSA(key, getDHValues().getUuid().toString().getBytes()));
+                String encryptedUuid = Base64Utils.encode(CryptoUtils.encryptRSA(key, getDHValues().getUuid().toString().getBytes()));
                 String plainChallengePayload = gson.toJson(new ChallengeRequestBean(encryptedUuid));
 
                 getDHValues().setSequence(2);
@@ -90,14 +90,14 @@ public interface DHFlow {
                 getDHValues().setkAuth(CryptoUtils.generateKAuth(getDHValues().getSequence(), getDHValues().getkMaster()));
                 getDHValues().setkSess(CryptoUtils.generateKSess(getDHValues().getSequence(), getDHValues().getkMaster()));
 
-                String hmac = Base64.getEncoder().encodeToString(CryptoUtils.hmacSha256Raw(getDHValues().getkAuth(), plainChallengePayload.getBytes()));
-                String encryptedPayload = Base64.getEncoder().encodeToString(CryptoUtils.encryptPkcs5(getDHValues().getkSess(), plainChallengePayload.getBytes()));
+                String hmac = Base64Utils.encode(CryptoUtils.hmacSha256Raw(getDHValues().getkAuth(), plainChallengePayload.getBytes()));
+                String encryptedPayload = Base64Utils.encode(CryptoUtils.encryptPkcs5(getDHValues().getkSess(), plainChallengePayload.getBytes()));
 
                 ProtoLogger.info("==> plain uuid: " + getDHValues().getUuid());
                 ProtoLogger.info("==> encrypted uuid: " + encryptedUuid);
-                ProtoLogger.info("==> kMaster: " + Base64.getEncoder().encodeToString(getDHValues().getkMaster()));
-                ProtoLogger.info("==> kSess: " + Base64.getEncoder().encodeToString(getDHValues().getkSess()));
-                ProtoLogger.info("==> kAuth: " + Base64.getEncoder().encodeToString(getDHValues().getkAuth()));
+                ProtoLogger.info("==> kMaster: " + Base64Utils.encode(getDHValues().getkMaster()));
+                ProtoLogger.info("==> kSess: " + Base64Utils.encode(getDHValues().getkSess()));
+                ProtoLogger.info("==> kAuth: " + Base64Utils.encode(getDHValues().getkAuth()));
                 ProtoLogger.info("==> plain payload: " + plainChallengePayload);
                 ProtoLogger.info("==> encrypted payload: " + encryptedPayload);
                 ProtoLogger.info("==> hmac plain nested payload: " + hmac);
@@ -124,7 +124,7 @@ public interface DHFlow {
             try {
 
                 payloadBean = gson.fromJson(
-                        new String(CryptoUtils.decryptPkcs5(getDHValues().getkSess(), Base64.getDecoder().decode(dhEncryptedResponseBean.getEncryptedPayload()))),
+                        new String(CryptoUtils.decryptPkcs5(getDHValues().getkSess(), Base64Utils.decode(dhEncryptedResponseBean.getEncryptedPayload()))),
                         ChallengeResponseBean.class
                 );
 
@@ -136,7 +136,7 @@ public interface DHFlow {
             String uuidFromServer = payloadBean.getChallengeResponse();
             String hmac;
             try {
-                hmac = Base64.getEncoder().encodeToString(CryptoUtils.hmacSha256Raw(getDHValues().getkAuth(), gson.toJson(payloadBean).getBytes()));
+                hmac = Base64Utils.encode(CryptoUtils.hmacSha256Raw(getDHValues().getkAuth(), gson.toJson(payloadBean).getBytes()));
             } catch (ProtoCoreError error) {
                 subscriber.onError(error);
                 return;
@@ -220,16 +220,16 @@ public interface DHFlow {
             }
 
             String plainTokenVerificationRequestString = gson.toJson(new TokenVerificationRequestBean(
-                    Base64.getEncoder().encodeToString(verify),
+                    Base64Utils.encode(verify),
                     token,
-                    Base64.getEncoder().encodeToString(getDHValues().getkSafeWally())
+                    Base64Utils.encode(getDHValues().getkSafeWally())
             ));
 
             String encryptedPayload;
             String hmac;
             try {
-                encryptedPayload = Base64.getEncoder().encodeToString(CryptoUtils.encryptPkcs5(getDHValues().getkSess(), plainTokenVerificationRequestString.getBytes()));
-                hmac = Base64.getEncoder().encodeToString(CryptoUtils.hmacSha256Raw(getDHValues().getkAuth(), plainTokenVerificationRequestString.getBytes()));
+                encryptedPayload = Base64Utils.encode(CryptoUtils.encryptPkcs5(getDHValues().getkSess(), plainTokenVerificationRequestString.getBytes()));
+                hmac = Base64Utils.encode(CryptoUtils.hmacSha256Raw(getDHValues().getkAuth(), plainTokenVerificationRequestString.getBytes()));
             } catch (ProtoCoreError error) {
                 ProtoCoreErrorType errorType = ProtoCoreErrorType.DH_ERROR;
                 errorType.setMessage("error generating encryptedPayload and hmac");
@@ -238,10 +238,10 @@ public interface DHFlow {
             }
 
             ProtoLogger.info("==> nonceInc: " + getDHValues().getNonce());
-            ProtoLogger.info("==> kSafe: " + Base64.getEncoder().encodeToString(kSafeNew));
-            ProtoLogger.info("==> kSafeApp: " + Base64.getEncoder().encodeToString(getDHValues().getkSafeApp()));
-            ProtoLogger.info("==> kSafeWally: " + Base64.getEncoder().encodeToString(getDHValues().getkSafeWally()));
-            ProtoLogger.info("==> verify: " + Base64.getEncoder().encodeToString(verify));
+            ProtoLogger.info("==> kSafe: " + Base64Utils.encode(kSafeNew));
+            ProtoLogger.info("==> kSafeApp: " + Base64Utils.encode(getDHValues().getkSafeApp()));
+            ProtoLogger.info("==> kSafeWally: " + Base64Utils.encode(getDHValues().getkSafeWally()));
+            ProtoLogger.info("==> verify: " + Base64Utils.encode(verify));
             ProtoLogger.info("==> plain payload: " + plainTokenVerificationRequestString);
             ProtoLogger.info("==> encrypted payload: " + encryptedPayload);
             ProtoLogger.info("==> hmac: " + hmac);
@@ -262,7 +262,7 @@ public interface DHFlow {
 
             try {
                 payloadBean = gson.fromJson(
-                        new String(CryptoUtils.decryptPkcs5(getDHValues().getkSess(), Base64.getDecoder().decode(dhEncryptedResponseBean.getEncryptedPayload()))),
+                        new String(CryptoUtils.decryptPkcs5(getDHValues().getkSess(), Base64Utils.decode(dhEncryptedResponseBean.getEncryptedPayload()))),
                         TokenVerificationResponseBean.class
                 );
             } catch (ProtoCoreError error) {
@@ -275,7 +275,7 @@ public interface DHFlow {
             String hmac;
 
             try {
-                hmac = Base64.getEncoder().encodeToString(CryptoUtils.hmacSha256Raw(getDHValues().getkAuth(), gson.toJson(payloadBean).getBytes()));
+                hmac = Base64Utils.encode(CryptoUtils.hmacSha256Raw(getDHValues().getkAuth(), gson.toJson(payloadBean).getBytes()));
             } catch (ProtoCoreError error) {
                 ProtoCoreErrorType errorType = ProtoCoreErrorType.DH_ERROR;
                 errorType.setMessage("error generating hmac");
@@ -296,10 +296,10 @@ public interface DHFlow {
                 return;
             }
 
-            getSecurePersistenceManager().persistSecurely(SecurePersistenceManager.KMASTER_KEY, Base64.getEncoder().encodeToString(getDHValues().getkMaster()));
+            getSecurePersistenceManager().persistSecurely(SecurePersistenceManager.KMASTER_KEY, Base64Utils.encode(getDHValues().getkMaster()));
             getSecurePersistenceManager().persistSecurely(SecurePersistenceManager.SEQUENCE_KEY, String.valueOf(getDHValues().getSequence()));
             getSecurePersistenceManager().persistSecurely(SecurePersistenceManager.USER_KEY_ID_KEY, getDHValues().getUserKeyId());
-            getSecurePersistenceManager().persistSecurely(SecurePersistenceManager.KSAFE_APP_KEY, Base64.getEncoder().encodeToString(getDHValues().getkSafeApp()));
+            getSecurePersistenceManager().persistSecurely(SecurePersistenceManager.KSAFE_APP_KEY, Base64Utils.encode(getDHValues().getkSafeApp()));
 
             subscriber.onNext(dhEncryptedResponseBean);
             subscriber.onCompleted();

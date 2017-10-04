@@ -129,7 +129,7 @@ public class FirstPageController implements Initializable {
                                     confirmButton.setVisible(true);
                                     insertTokenField.setEditable(true);
 
-                                    sharedSecret.setText(Base64.getEncoder().encodeToString(DHValues.getInstance().getkAuth()));
+                                    sharedSecret.setText(Base64Utils.encode(DHValues.getInstance().getkAuth()));
                                     nonce.setText(DHValues.getInstance().getNonce());
 
                                     Platform.runLater(() -> tokenResult.setText("VERIFIED"));
@@ -183,7 +183,7 @@ public class FirstPageController implements Initializable {
         DHValues.getInstance().setkMaster(dhValues.getkMaster());
         DHValues.getInstance().setSequence(dhValues.getSequence());
         DHValues.getInstance().setUserKeyId(dhValues.getUserKeyId());
-        MemoryPersistenceManager.getInstance().persistSecurely(SecurePersistenceManager.KMASTER_KEY, Base64.getEncoder().encodeToString(DHValues.getInstance().getkMaster()));
+        MemoryPersistenceManager.getInstance().persistSecurely(SecurePersistenceManager.KMASTER_KEY, Base64Utils.encode(DHValues.getInstance().getkMaster()));
         MemoryPersistenceManager.getInstance().persistSecurely(SecurePersistenceManager.SEQUENCE_KEY, "" + DHValues.getInstance().getSequence());
         MemoryPersistenceManager.getInstance().persistSecurely(SecurePersistenceManager.USER_KEY_ID_KEY, "" + DHValues.getInstance().getUserKeyId());
 

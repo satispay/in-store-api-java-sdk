@@ -1,5 +1,6 @@
 package com.satispay.protocore.active;
 
+import com.satispay.protocore.crypto.Base64Utils;
 import com.satispay.protocore.crypto.CryptoUtils;
 import com.satispay.protocore.errors.ProtoCoreError;
 import com.satispay.protocore.errors.ProtoCoreErrorType;
@@ -29,7 +30,7 @@ public class SignatureUtils {
      * @throws NoSuchAlgorithmException
      */
     public static String generateDigestHeader(byte[] body) throws NoSuchAlgorithmException {
-        return "SHA-512=" + Base64.getEncoder().encodeToString(MessageDigest.getInstance("SHA-512").digest(body));
+        return "SHA-512=" + Base64Utils.encode(MessageDigest.getInstance("SHA-512").digest(body));
     }
 
     /**
@@ -93,7 +94,7 @@ public class SignatureUtils {
                 "algorithm=\"" + getAlgorithm() + "\", " +
                 "satispayresign=\"" + getResignEnabled() + "\", " +
                 "headers=\"" + getSignedHeaders() + "\", " +
-                "signature=\"" + Base64.getEncoder().encodeToString(bytes) + "\", " +
+                "signature=\"" + Base64Utils.encode(bytes) + "\", " +
                 "satispaysequence=\"" + securePersistenceManager.getPersistedData(SecurePersistenceManager.SEQUENCE_KEY) + "\", " +
                 "satispayperformance=\"LOW\"";
 
@@ -107,7 +108,7 @@ public class SignatureUtils {
      */
     private static byte[] generateSignature(String stringToSign, SecurePersistenceManager securePersistenceManager) throws ProtoCoreError {
 
-        byte[] kMaster = Base64.getDecoder().decode(securePersistenceManager.getPersistedData(MemoryPersistenceManager.KMASTER_KEY));
+        byte[] kMaster = Base64Utils.decode(securePersistenceManager.getPersistedData(MemoryPersistenceManager.KMASTER_KEY));
         return CryptoUtils.hmacSha256Raw(
                 CryptoUtils.generateKAuth(Integer.parseInt(securePersistenceManager.getPersistedData(SecurePersistenceManager.SEQUENCE_KEY)), kMaster),
                 stringToSign.getBytes());
@@ -235,7 +236,7 @@ public class SignatureUtils {
 
         String sequence = authorizationValues.get("satispaysequence");
         securePersistenceManager.persistSecurely(SecurePersistenceManager.SEQUENCE_KEY, sequence != null ? sequence : "2");
-        String signatureString = Base64.getEncoder().encodeToString(generateSignature(stringBuilder.toString(), securePersistenceManager));
+        String signatureString = Base64Utils.encode(generateSignature(stringBuilder.toString(), securePersistenceManager));
 
         return (authorizationValues.get("signature").equals(signatureString) && myDigest.equals(digestServer));
     }
