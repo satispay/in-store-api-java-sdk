@@ -99,7 +99,7 @@ public class TestMain {
                     };
 
                     return persistenceProtoCore
-                            .appStarted(new AppStartedBean("", "", "", "", "", 0d, 0d))
+                            .appStarted(new AppStartedBean("", null))
                             .switchMap(
                                     aVoid -> {
 //                                        securePersistenceManager.persistSecurely(SecurePersistenceManager.SEQUENCE_KEY, "2");
