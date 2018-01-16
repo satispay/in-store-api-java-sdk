@@ -12,9 +12,13 @@ import com.satispay.protocore.models.transactions.DailyClosure;
 import com.satispay.protocore.models.transactions.HistoryTransactionsModel;
 import com.satispay.protocore.models.transactions.TransactionProposal;
 import com.satispay.protocore.persistence.PersistenceManager;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.Url;
 import rx.Observable;
 
 import java.util.ArrayList;
@@ -121,12 +125,27 @@ public interface PersistenceProtoCore extends ProtoCore {
     }
 
     @Override
-    default Observable<DailyClosure> getDailyClosure(String date, String type) {
+    default Observable<DailyClosure> getDailyClosure(@Path("date") String date, @Path("type") String type) {
         return getProtoCoreProvider().getProtocore().getDailyClosure(date, type);
     }
 
     @Override
     default Observable<ProtoCoreMessage> testSignature() {
         return getProtoCoreProvider().getProtocore().testSignature();
+    }
+
+    @Override
+    default Observable<Response<ResponseBody>> getObject(@Url String url) {
+        return getProtoCoreProvider().getProtocore().getObject(url);
+    }
+
+    @Override
+    default Observable<Response<ResponseBody>> putObject(@Url String url, @Body RequestBody requestBody)  {
+        return getProtoCoreProvider().getProtocore().putObject(url, requestBody);
+    }
+
+    @Override
+    default Observable<Response<ResponseBody>> postObject(@Url String url, @Body RequestBody requestBody) {
+        return getProtoCoreProvider().getProtocore().postObject(url, requestBody);
     }
 }

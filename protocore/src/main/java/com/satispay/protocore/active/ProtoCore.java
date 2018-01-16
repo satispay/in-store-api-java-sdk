@@ -12,6 +12,9 @@ import com.satispay.protocore.models.transactions.CloseTransaction;
 import com.satispay.protocore.models.transactions.DailyClosure;
 import com.satispay.protocore.models.transactions.HistoryTransactionsModel;
 import com.satispay.protocore.models.transactions.TransactionProposal;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Response;
 import retrofit2.http.*;
 import rx.Observable;
 
@@ -138,4 +141,17 @@ public interface ProtoCore {
     //test API for signature
     @GET("v2/wally-services/protocol/tests/signature")
     Observable<ProtoCoreMessage> testSignature();
+
+    /***********
+     * generic *
+     ***********/
+
+    @GET()
+    Observable<Response<ResponseBody>> getObject(@Url String url);
+
+    @PUT()
+    Observable<Response<ResponseBody>> putObject(@Url String url, @Body RequestBody requestBody);
+
+    @POST()
+    Observable<Response<ResponseBody>> postObject(@Url String url, @Body RequestBody requestBody);
 }
