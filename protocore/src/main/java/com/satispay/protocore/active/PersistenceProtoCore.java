@@ -2,6 +2,7 @@ package com.satispay.protocore.active;
 
 import com.satispay.protocore.ProtoCoreMessage;
 import com.satispay.protocore.models.analytics.AppStartedBean;
+import com.satispay.protocore.models.device.DeviceToken;
 import com.satispay.protocore.models.generic.Consumer;
 import com.satispay.protocore.models.generic.Location;
 import com.satispay.protocore.models.generic.VersionUpdate;
@@ -117,6 +118,11 @@ public interface PersistenceProtoCore extends ProtoCore {
     @Override
     default Observable<ProtoCoreMessage> getConsumerImage(@Path("id") String consumerId) {
         return getProtoCoreProvider().getProtocore().getConsumerImage(consumerId);
+    }
+
+    @Override
+    default Observable<DeviceToken> generateDeviceToken() {
+        return getProtoCoreProvider().getProtocore().generateDeviceToken();
     }
 
     @Override

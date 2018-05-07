@@ -3,6 +3,7 @@ package com.satispay.protocore.active;
 
 import com.satispay.protocore.ProtoCoreMessage;
 import com.satispay.protocore.models.analytics.AppStartedBean;
+import com.satispay.protocore.models.device.DeviceToken;
 import com.satispay.protocore.models.generic.Consumer;
 import com.satispay.protocore.models.generic.Location;
 import com.satispay.protocore.models.generic.VersionUpdate;
@@ -130,6 +131,13 @@ public interface ProtoCore {
 
     @GET("v2/consumers/{id}/image")
     Observable<ProtoCoreMessage> getConsumerImage(@Path("id") String consumerId);
+
+    /****************
+     * device utils *
+     ****************/
+
+    @POST("v2/device_tokens")
+    Observable<DeviceToken> generateDeviceToken();
 
     /*************
      * analytics *
