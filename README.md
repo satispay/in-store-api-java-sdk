@@ -1,4 +1,4 @@
-# in-store-api-java-client
+# in-store-api-java-sdk
 
 ## Requirements
 
@@ -19,8 +19,7 @@ To run the example project, clone the repository, sync the gradle project and ru
 
 This sample use as default the Sandbox Environment (called "staging").
 
-### Switch between environments
-
+### Setup
 
 Add this in your root `build.gradle` file:
 
