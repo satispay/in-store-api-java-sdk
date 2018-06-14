@@ -1,9 +1,7 @@
 package com.satispay.protocore.dh;
 
 import com.satispay.protocore.dh.beans.*;
-import retrofit2.http.Body;
-import retrofit2.http.POST;
-import retrofit2.http.Path;
+import retrofit2.http.*;
 import rx.Observable;
 
 /**
@@ -29,8 +27,8 @@ public interface DH {
      * token generation *
      ********************/
 
-    @POST("v2/device_token_recoveries/shops?code={code}&starting_after={startingAfter}")
-    Observable<TokenRecoveryResponseBean> tokenRecoveryShopList(@Path("code") String code, @Path("startingAfter") String startingAfter);
+    @GET("v2/device_token_recoveries/shops")
+    Observable<TokenRecoveryResponseBean> tokenRecoveryShopList(@Query("code") String code, @Query("starting_after") String startingAfter);
 
     @POST("v2/device_token_recoveries/shops/{id}/device_tokens")
     Observable<Void> tokenRecoverySend(@Path("id") String id, @Body SendTokenRequestBean sendTokenRequestBean);
