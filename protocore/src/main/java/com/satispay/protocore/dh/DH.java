@@ -1,11 +1,9 @@
 package com.satispay.protocore.dh;
 
-import com.satispay.protocore.dh.beans.DHEncryptedRequestBean;
-import com.satispay.protocore.dh.beans.DHEncryptedResponseBean;
-import com.satispay.protocore.dh.beans.ExchangeRequestBean;
-import com.satispay.protocore.dh.beans.ExchangeResponseBean;
+import com.satispay.protocore.dh.beans.*;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import rx.Observable;
 
 /**
@@ -26,4 +24,14 @@ public interface DH {
 
     @POST("v2/dh/verify")
     Observable<DHEncryptedResponseBean> tokenVerification(@Body DHEncryptedRequestBean tokenVerificationRequestBean);
+
+    /********************
+     * token generation *
+     ********************/
+
+    @POST("v2/device_token_recoveries/shops?code={code}&starting_after={startingAfter}")
+    Observable<TokenRecoveryResponseBean> tokenRecoveryShopList(@Path("code") String code, @Path("startingAfter") String startingAfter);
+
+    @POST("v2/device_token_recoveries/shops/{id}/device_tokens")
+    Observable<Void> tokenRecoverySend(@Path("id") String id, @Body SendTokenRequestBean sendTokenRequestBean);
 }

@@ -132,9 +132,9 @@ public interface ProtoCore {
     @GET("v2/consumers/{id}/image")
     Observable<ProtoCoreMessage> getConsumerImage(@Path("id") String consumerId);
 
-    /****************
-     * device utils *
-     ****************/
+    /********************
+     * token generation *
+     ********************/
 
     @POST("v2/device_tokens")
     Observable<DeviceToken> generateDeviceToken();
