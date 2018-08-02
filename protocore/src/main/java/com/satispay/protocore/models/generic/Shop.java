@@ -7,6 +7,7 @@ public class Shop extends Model {
     private String type;
     private String imageUrl;
     private Address spotAddressBean;
+    private String qrCodeIdentifier;
 
     public Shop() {
     }
@@ -57,6 +58,14 @@ public class Shop extends Model {
 
     public void setAddress(Address address) {
         this.spotAddressBean = address;
+    }
+
+    public String getQrCodeIdentifier() {
+        return qrCodeIdentifier;
+    }
+
+    public void setQrCodeIdentifier(String qrCodeIdentifier) {
+        this.qrCodeIdentifier = qrCodeIdentifier;
     }
 
     public enum MobilityType {
