@@ -50,7 +50,9 @@ public class CryptoUtils {
     public static Cipher cipherAES(String transformation, Integer opmode, byte[] key, byte[] iv) throws ProtoCoreError {
         Cipher cipher = null;
         try {
-            cipher = Cipher.getInstance(transformation, "BC");
+            // -- Removed "BC" for https://android-developers.googleblog.com/2018/03/cryptography-changes-in-android-p.html
+            // cipher = Cipher.getInstance(transformation, "BC");
+            cipher = Cipher.getInstance(transformation);
             if (key != null && opmode != null) {
                 cipher.init(opmode, new SecretKeySpec(key, 0, key.length, "AES"), new IvParameterSpec(iv != null ? iv : new byte[16]));
             }
@@ -445,7 +447,9 @@ public class CryptoUtils {
                     certificateInString.getBytes(Charset.forName("UTF-8"))
             );
 
-            certificate = (X509Certificate) CertificateFactory.getInstance("X.509", "BC").generateCertificate(inputStream);
+            // -- Removed "BC" for https://android-developers.googleblog.com/2018/03/cryptography-changes-in-android-p.html
+            // certificate = (X509Certificate) CertificateFactory.getInstance("X.509", "BC").generateCertificate(inputStream);
+            certificate = (X509Certificate) CertificateFactory.getInstance("X.509").generateCertificate(inputStream);
 
         } catch (Exception e) {
 
