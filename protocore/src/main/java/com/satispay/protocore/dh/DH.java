@@ -28,7 +28,7 @@ public interface DH {
      ********************/
 
     @GET("v2/device_token_recoveries/shops")
-    Observable<TokenRecoveryResponseBean> tokenRecoveryShopList(@Query("code") String code, @Query("starting_after") String startingAfter);
+    Observable<TokenRecoveryResponseBean> tokenRecoveryShopList(@Query("code") String code, @Query("name") String name, @Query("starting_after") String startingAfter);
 
     @POST("v2/device_token_recoveries/shops/{id}/device_tokens")
     Observable<Void> tokenRecoverySend(@Path("id") String id, @Body SendTokenRequestBean sendTokenRequestBean);
