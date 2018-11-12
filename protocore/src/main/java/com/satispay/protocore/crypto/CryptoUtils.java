@@ -506,7 +506,8 @@ public class CryptoUtils {
             pp.close();
 
             InputDecryptorProvider pkcs8Prov = new JceOpenSSLPKCS8DecryptorProviderBuilder().build("1234".toCharArray());
-            JcaPEMKeyConverter converter = new JcaPEMKeyConverter().setProvider("BC");
+            // -- Removed "BC" for https://android-developers.googleblog.com/2018/03/cryptography-changes-in-android-p.html
+            JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
             privateKey = converter.getPrivateKey(pemPrivateKeyInfo.decryptPrivateKeyInfo(pkcs8Prov));
 
         } catch (Exception e) {
@@ -528,8 +529,8 @@ public class CryptoUtils {
             PEMParser pp = new PEMParser(br);
             SubjectPublicKeyInfo publicKeyInfo = (SubjectPublicKeyInfo) pp.readObject();
             pp.close();
-
-            JcaPEMKeyConverter converter = new JcaPEMKeyConverter().setProvider("BC");
+            // -- Removed "BC" for https://android-developers.googleblog.com/2018/03/cryptography-changes-in-android-p.html
+            JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
             publicKey = converter.getPublicKey(publicKeyInfo);
 
 
