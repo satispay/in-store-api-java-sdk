@@ -12,7 +12,7 @@ repositories {
 dependencies {
      compile project(':protocore')
     // compile 'com.github.satispay:in-store-api-java-sdk:master-SNAPSHOT'
-//    compile 'com.github.satispay:in-store-api-java-sdk:0.0.14'
+//    compile 'com.github.satispay:in-store-api-java-sdk:0.0.15'
 
     // ==> Rx
     compile 'io.reactivex:rxjava:1.3.0'
