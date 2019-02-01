@@ -69,6 +69,18 @@ public interface PersistenceProtoCore extends ProtoCore {
     }
 
     @Override
+    default Observable<HistoryTransactionsModel> getTransactionHistoryGBusiness(@Query("limit") int limit, @Query("starting_after") String startingAfter, @Query("starting_after_timestamp") String startingAfterTimestamp, @Query("status") String status) {
+        return getProtoCoreProvider().getProtocore().getTransactionHistoryGBusiness(limit, startingAfter, startingAfterTimestamp, status).map(historyTransactionsModel -> {
+            if (status != null) {
+                getPersistenceManager().persistTransactionsPolling(historyTransactionsModel.getList());
+            } else {
+                getPersistenceManager().persistTransactions(historyTransactionsModel.getList());
+            }
+            return historyTransactionsModel;
+        });
+    }
+
+    @Override
     default Observable<TransactionProposal> getTransactionDetail(@Path("id") long transactionId) {
         return getProtoCoreProvider().getProtocore().getTransactionDetail(transactionId).map(transactionProposal -> {
             ArrayList<TransactionProposal> transactionsToPersist;
