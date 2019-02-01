@@ -45,14 +45,31 @@ public interface ProtoCore {
     /**
      * Get the list of the accepted transactions
      *
-     * @param filter        the accepted filter is "proposed"  this trigger the pending transaction request
      * @param limit         the count of transactions we want to receive
      * @param startingAfter the starting transactionId we want to retrieve transactions from (all the limit transactions)
      *                      accepted accepted before transaction with startingAfterId will be retrieved)
+     * @param filter        the accepted filter is "proposed"  this trigger the pending transaction request
      * @return an Observable that emit the network response
      */
     @GET("v2.1/transactions")
     Observable<HistoryTransactionsModel> getTransactionHistory(@Query("limit") int limit, @Query("starting_after") String startingAfter, @Query("filter") String filter);
+
+    /**
+     * API to retrieve a list of payments that can be filtered based their status
+     *
+     * @param limit                  A limit on the number of objects to be returned, between 1 and 100
+     * @param startingAfter          Cursor to use in pagination. Starting_after is the id that defines your place in the list.
+     *                               For instance, if you make a list request and receive 100 objects, ending with
+     *                               "f0e8bf89-a119-45d4-ac1b-ee52cccc8932", your subsequent call can include
+     *                               starting_after="f0e8bf89-a119-45d4-ac1b-ee52cccc8932" in order to fetch the next
+     *                               page of the list.
+     * @param startingAfterTimestamp A secondary cursor for use in pagination. starting_after_timestamp is the timestamp that
+     *                               defines your place in the list. See the starting_after description for further details.
+     * @param status                 Filter by the payment status ACCEPTED, PENDING or CANCELED
+     * @return an Observable that emit the network response
+     */
+    @GET("/g_business/v1/payments")
+    Observable<HistoryTransactionsModel> getTransactionHistoryGBusiness(@Query("limit") int limit, @Query("starting_after") String startingAfter, @Query("starting_after_timestamp") String startingAfterTimestamp, @Query("status") String status);
 
     /**
      * Get the detail of a transaction
