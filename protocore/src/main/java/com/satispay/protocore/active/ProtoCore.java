@@ -6,13 +6,11 @@ import com.satispay.protocore.models.analytics.AppStartedBean;
 import com.satispay.protocore.models.device.DeviceToken;
 import com.satispay.protocore.models.generic.Consumer;
 import com.satispay.protocore.models.generic.Location;
+import com.satispay.protocore.models.generic.PaginatedList;
 import com.satispay.protocore.models.generic.VersionUpdate;
 import com.satispay.protocore.models.profile.ProfileMe;
 import com.satispay.protocore.models.registration.RegistrationBean;
-import com.satispay.protocore.models.transactions.CloseTransaction;
-import com.satispay.protocore.models.transactions.DailyClosure;
-import com.satispay.protocore.models.transactions.HistoryTransactionsModel;
-import com.satispay.protocore.models.transactions.TransactionProposal;
+import com.satispay.protocore.models.transactions.*;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
@@ -69,7 +67,7 @@ public interface ProtoCore {
      * @return an Observable that emit the network response
      */
     @GET("/g_business/v1/payments")
-    Observable<HistoryTransactionsModel> getTransactionHistoryGBusiness(@Query("limit") int limit, @Query("starting_after") String startingAfter, @Query("starting_after_timestamp") String startingAfterTimestamp, @Query("status") String status);
+    Observable<PaginatedList<GBPayment>> getTransactionHistoryGBusiness(@Query("limit") int limit, @Query("starting_after") String startingAfter, @Query("starting_after_timestamp") String startingAfterTimestamp, @Query("status") String status);
 
     /**
      * Get the detail of a transaction

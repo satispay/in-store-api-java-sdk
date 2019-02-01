@@ -5,13 +5,11 @@ import com.satispay.protocore.models.analytics.AppStartedBean;
 import com.satispay.protocore.models.device.DeviceToken;
 import com.satispay.protocore.models.generic.Consumer;
 import com.satispay.protocore.models.generic.Location;
+import com.satispay.protocore.models.generic.PaginatedList;
 import com.satispay.protocore.models.generic.VersionUpdate;
 import com.satispay.protocore.models.profile.ProfileMe;
 import com.satispay.protocore.models.registration.RegistrationBean;
-import com.satispay.protocore.models.transactions.CloseTransaction;
-import com.satispay.protocore.models.transactions.DailyClosure;
-import com.satispay.protocore.models.transactions.HistoryTransactionsModel;
-import com.satispay.protocore.models.transactions.TransactionProposal;
+import com.satispay.protocore.models.transactions.*;
 import com.satispay.protocore.persistence.PersistenceManager;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -69,14 +67,24 @@ public interface PersistenceProtoCore extends ProtoCore {
     }
 
     @Override
-    default Observable<HistoryTransactionsModel> getTransactionHistoryGBusiness(@Query("limit") int limit, @Query("starting_after") String startingAfter, @Query("starting_after_timestamp") String startingAfterTimestamp, @Query("status") String status) {
-        return getProtoCoreProvider().getProtocore().getTransactionHistoryGBusiness(limit, startingAfter, startingAfterTimestamp, status).map(historyTransactionsModel -> {
+    default Observable<PaginatedList<GBPayment>> getTransactionHistoryGBusiness(@Query("limit") int limit, @Query("starting_after") String startingAfter, @Query("starting_after_timestamp") String startingAfterTimestamp, @Query("status") String status) {
+        return getProtoCoreProvider().getProtocore().getTransactionHistoryGBusiness(limit, startingAfter, startingAfterTimestamp, status).map(paymentPaginatedList -> {
+
+            HistoryTransactionsModel historyTransactionsModel = new HistoryTransactionsModel();
+            historyTransactionsModel.setHasMore(paymentPaginatedList.isHasMore());
+            historyTransactionsModel.setFound(paymentPaginatedList.getData().size());
+            ArrayList<TransactionProposal> list = new ArrayList<>();
+            historyTransactionsModel.setList(list);
+            for (GBPayment gbPayment : paymentPaginatedList.getData()) {
+                list.add(gbPayment.toTransactionProposal());
+            }
+
             if (status != null) {
                 getPersistenceManager().persistTransactionsPolling(historyTransactionsModel.getList());
             } else {
                 getPersistenceManager().persistTransactions(historyTransactionsModel.getList());
             }
-            return historyTransactionsModel;
+            return paymentPaginatedList;
         });
     }
 
