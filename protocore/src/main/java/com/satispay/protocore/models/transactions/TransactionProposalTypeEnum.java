@@ -1,5 +1,6 @@
 package com.satispay.protocore.models.transactions;
 
+@Deprecated
 public enum TransactionProposalTypeEnum {
 
     RM2P, //==> refund

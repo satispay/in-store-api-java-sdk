@@ -6,7 +6,11 @@ import com.satispay.protocore.models.analytics.AppStartedBean;
 import com.satispay.protocore.models.device.DeviceToken;
 import com.satispay.protocore.models.generic.Consumer;
 import com.satispay.protocore.models.generic.Location;
+import com.satispay.protocore.models.generic.PaginatedList;
 import com.satispay.protocore.models.generic.VersionUpdate;
+import com.satispay.protocore.models.payment.Payment;
+import com.satispay.protocore.models.payment.PaymentCreate;
+import com.satispay.protocore.models.payment.PaymentUpdate;
 import com.satispay.protocore.models.profile.ProfileMe;
 import com.satispay.protocore.models.registration.RegistrationBean;
 import com.satispay.protocore.models.transactions.CloseTransaction;
@@ -18,6 +22,8 @@ import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.http.*;
 import rx.Observable;
+
+import java.util.Date;
 
 /**
  * This interface describes the API exposed for the active state of a business application.
@@ -45,32 +51,77 @@ public interface ProtoCore {
     /**
      * Get the list of the accepted transactions
      *
-     * @param filter        the accepted filter is "proposed"  this trigger the pending transaction request
+     * @deprecated replaced by {@link #getPaymentList(int, String, String, String)}
+     *
      * @param limit         the count of transactions we want to receive
      * @param startingAfter the starting transactionId we want to retrieve transactions from (all the limit transactions)
      *                      accepted accepted before transaction with startingAfterId will be retrieved)
+     * @param filter        the accepted filter is "proposed"  this trigger the pending transaction request
      * @return an Observable that emit the network response
      */
+    @Deprecated
     @GET("v2.1/transactions")
     Observable<HistoryTransactionsModel> getTransactionHistory(@Query("limit") int limit, @Query("starting_after") String startingAfter, @Query("filter") String filter);
 
     /**
+     * API to retrieve a list of payments that can be filtered based their status
+     *
+     * @param limit                  A limit on the number of objects to be returned, between 1 and 100
+     * @param startingAfter          Cursor to use in pagination. Starting_after is the id that defines your place in the list.
+     *                               For instance, if you make a list request and receive 100 objects, ending with
+     *                               "f0e8bf89-a119-45d4-ac1b-ee52cccc8932", your subsequent call can include
+     *                               starting_after="f0e8bf89-a119-45d4-ac1b-ee52cccc8932" in order to fetch the next
+     *                               page of the list.
+     * @param startingAfterTimestamp A secondary cursor for use in pagination. starting_after_timestamp is the timestamp that
+     *                               defines your place in the list. See the starting_after description for further details.
+     * @param status                 Filter by the payment status ACCEPTED, PENDING or CANCELED
+     * @return an Observable that emit the network response
+     */
+    @GET("/g_business/v1/payments")
+    Observable<PaginatedList<Payment>> getPaymentList(@Query("limit") int limit, @Query("starting_after") String startingAfter, @Query("starting_after_timestamp") String startingAfterTimestamp, @Query("status") String status);
+
+    /**
      * Get the detail of a transaction
+     *
+     * @deprecated replaced by {@link #getPayment(long)}
      *
      * @param transactionId the id of the requested transaction
      * @return a TransactionBean
      */
+    @Deprecated
     @GET("v2.1/transactions/{id}")
     Observable<TransactionProposal> getTransactionDetail(@Path("id") long transactionId);
 
     /**
+     * API to retrieve the detail of a specific payment
+     *
+     * @param paymentId     The id of the payment to retrieve
+     * @return a {@link Payment}
+     */
+    @GET("/g_business/v1/payments/{id}")
+    Observable<Payment> getPayment(@Path("id") long paymentId);
+
+    /**
      * Communicate to approve a certain proposal
+     *
+     * @deprecated replaced by {@link #updatePayment(String, PaymentUpdate)}
      *
      * @param transactionId the id of the transaction
      * @return an Observable that emit the new TransactionBean
      */
+    @Deprecated
     @PUT("v2.1/transactions/{id}/state")
     Observable<TransactionProposal> closeTransaction(@Body CloseTransaction closeTransaction, @Path("id") String transactionId);
+
+    /**
+     * API to update the state or the metadata of a payment
+     *
+     * @param paymentId The id of the payment to retrieve
+     * @param paymentUpdate Update: [action] to perform (ACCEPT or CANCEL) and/or [metadata] Generic field that can be used to store the order_id
+     * @return an Observable that emit the new TransactionBean
+     */
+    @PUT("/g_business/v1/payments/{id}")
+    Observable<Payment> updatePayment(@Path("id") String paymentId, @Body PaymentUpdate paymentUpdate);
 
     /**
      * Communicate to refund a certain transaction
@@ -80,6 +131,15 @@ public interface ProtoCore {
      */
     @POST("v2/transactions/{id}/refunds")
     Observable<TransactionProposal> refundTransaction(@Path("id") String transactionId);
+
+    /**
+     * API to create a payment, flows: MATCH_CODE or REFUND
+     *
+     * @param paymentCreate Create payment, fields {@link PaymentCreate#PaymentCreate(String, Long, String, Date, String, String, String)}
+     * @return an Observable that emit the new TransactionBean
+     */
+    @POST("/g_business/v1/payments")
+    Observable<Payment> createPayment(@Body PaymentCreate paymentCreate);
 
     /**
      * Given a date, will retrieve the shop daily amount related to the authentication key.

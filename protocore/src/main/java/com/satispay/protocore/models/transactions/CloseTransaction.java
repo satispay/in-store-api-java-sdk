@@ -1,5 +1,6 @@
 package com.satispay.protocore.models.transactions;
 
+@Deprecated
 public class CloseTransaction {
 
     private String state;

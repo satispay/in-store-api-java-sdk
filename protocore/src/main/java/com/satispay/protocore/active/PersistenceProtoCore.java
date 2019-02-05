@@ -5,14 +5,16 @@ import com.satispay.protocore.models.analytics.AppStartedBean;
 import com.satispay.protocore.models.device.DeviceToken;
 import com.satispay.protocore.models.generic.Consumer;
 import com.satispay.protocore.models.generic.Location;
+import com.satispay.protocore.models.generic.PaginatedList;
 import com.satispay.protocore.models.generic.VersionUpdate;
+import com.satispay.protocore.models.payment.Payment;
+import com.satispay.protocore.models.payment.PaymentCreate;
+import com.satispay.protocore.models.payment.PaymentUpdate;
 import com.satispay.protocore.models.profile.ProfileMe;
 import com.satispay.protocore.models.registration.RegistrationBean;
-import com.satispay.protocore.models.transactions.CloseTransaction;
-import com.satispay.protocore.models.transactions.DailyClosure;
-import com.satispay.protocore.models.transactions.HistoryTransactionsModel;
-import com.satispay.protocore.models.transactions.TransactionProposal;
+import com.satispay.protocore.models.transactions.*;
 import com.satispay.protocore.persistence.PersistenceManager;
+import com.satispay.protocore.utility.GBusinessConverter;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
@@ -69,13 +71,36 @@ public interface PersistenceProtoCore extends ProtoCore {
     }
 
     @Override
+    default Observable<PaginatedList<Payment>> getPaymentList(@Query("limit") int limit, @Query("starting_after") String startingAfter, @Query("starting_after_timestamp") String startingAfterTimestamp, @Query("status") String status) {
+        return getProtoCoreProvider().getProtocore().getPaymentList(limit, startingAfter, startingAfterTimestamp, status).map(paymentPaginatedList -> {
+            HistoryTransactionsModel historyTransactionsModel = GBusinessConverter.toHistoryTransactionsModel(paymentPaginatedList);
+            if (status != null) {
+                getPersistenceManager().persistTransactionsPolling(historyTransactionsModel.getList());
+            } else {
+                getPersistenceManager().persistTransactions(historyTransactionsModel.getList());
+            }
+            return paymentPaginatedList;
+        });
+    }
+
+    @Override
     default Observable<TransactionProposal> getTransactionDetail(@Path("id") long transactionId) {
         return getProtoCoreProvider().getProtocore().getTransactionDetail(transactionId).map(transactionProposal -> {
-            ArrayList<TransactionProposal> transactionsToPersist;
-            transactionsToPersist = new ArrayList<>();
+            ArrayList<TransactionProposal> transactionsToPersist = new ArrayList<>();
             transactionsToPersist.add(transactionProposal);
             getPersistenceManager().persistTransactions(transactionsToPersist);
             return transactionProposal;
+        });
+    }
+
+    @Override
+    default Observable<Payment> getPayment(@Path("id") long paymentId) {
+        return getProtoCoreProvider().getProtocore().getPayment(paymentId).map(payment -> {
+            TransactionProposal transactionProposal = payment.toTransactionProposal();
+            ArrayList<TransactionProposal> transactionsToPersist = new ArrayList<>();
+            transactionsToPersist.add(transactionProposal);
+            getPersistenceManager().persistTransactions(transactionsToPersist);
+            return payment;
         });
     }
 
@@ -88,11 +113,25 @@ public interface PersistenceProtoCore extends ProtoCore {
     }
 
     @Override
+    default Observable<Payment> updatePayment(@Path("id") String paymentId, @Body PaymentUpdate paymentUpdate) {
+        return getProtoCoreProvider().getProtocore().updatePayment(paymentId, paymentUpdate).map(payment -> {
+            TransactionProposal transactionProposal = payment.toTransactionProposal();
+            getPersistenceManager().persistClosedTransaction(transactionProposal);
+            return payment;
+        });
+    }
+
+    @Override
     default Observable<TransactionProposal> refundTransaction(@Path("id") String transactionId) {
         return getProtoCoreProvider().getProtocore().refundTransaction(transactionId).map(transactionProposal -> {
             getPersistenceManager().persistClosedTransaction(transactionProposal);
             return transactionProposal;
         });
+    }
+
+    @Override
+    default Observable<Payment> createPayment(PaymentCreate paymentCreate) {
+        return getProtoCoreProvider().getProtocore().createPayment(paymentCreate);
     }
 
     @Override
@@ -146,7 +185,7 @@ public interface PersistenceProtoCore extends ProtoCore {
     }
 
     @Override
-    default Observable<Response<ResponseBody>> putObject(@Url String url, @Body RequestBody requestBody)  {
+    default Observable<Response<ResponseBody>> putObject(@Url String url, @Body RequestBody requestBody) {
         return getProtoCoreProvider().getProtocore().putObject(url, requestBody);
     }
 
