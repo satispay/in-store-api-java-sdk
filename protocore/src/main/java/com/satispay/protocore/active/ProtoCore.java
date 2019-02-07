@@ -4,10 +4,7 @@ package com.satispay.protocore.active;
 import com.satispay.protocore.ProtoCoreMessage;
 import com.satispay.protocore.models.analytics.AppStartedBean;
 import com.satispay.protocore.models.device.DeviceToken;
-import com.satispay.protocore.models.generic.Consumer;
-import com.satispay.protocore.models.generic.Location;
-import com.satispay.protocore.models.generic.PaginatedList;
-import com.satispay.protocore.models.generic.VersionUpdate;
+import com.satispay.protocore.models.generic.*;
 import com.satispay.protocore.models.payment.Payment;
 import com.satispay.protocore.models.payment.PaymentCreate;
 import com.satispay.protocore.models.payment.PaymentUpdate;
@@ -30,23 +27,20 @@ import java.util.Date;
  */
 public interface ProtoCore {
 
-    /******************
-     * version update *
-     ******************/
+
+    // Version API
 
     @GET("v2/versions/{os}/{versionCode}")
     Observable<VersionUpdate> versionUpdate(@Path("os") String os, @Path("versionCode") Long versionCode);
 
-    /***********
-     * devices *
-     ***********/
+
+    // Devices API
 
     @POST("v2/devices")
     Observable<ProtoCoreMessage> registrationToken(@Body RegistrationBean registrationBean);
 
-    /****************
-     * transactions *
-     ****************/
+
+    // Transactions API (@deprecated replaced by Payments API)
 
     /**
      * Get the list of the accepted transactions
@@ -64,23 +58,6 @@ public interface ProtoCore {
     Observable<HistoryTransactionsModel> getTransactionHistory(@Query("limit") int limit, @Query("starting_after") String startingAfter, @Query("filter") String filter);
 
     /**
-     * API to retrieve a list of payments that can be filtered based their status
-     *
-     * @param limit                  A limit on the number of objects to be returned, between 1 and 100
-     * @param startingAfter          Cursor to use in pagination. Starting_after is the id that defines your place in the list.
-     *                               For instance, if you make a list request and receive 100 objects, ending with
-     *                               "f0e8bf89-a119-45d4-ac1b-ee52cccc8932", your subsequent call can include
-     *                               starting_after="f0e8bf89-a119-45d4-ac1b-ee52cccc8932" in order to fetch the next
-     *                               page of the list.
-     * @param startingAfterTimestamp A secondary cursor for use in pagination. starting_after_timestamp is the timestamp that
-     *                               defines your place in the list. See the starting_after description for further details.
-     * @param status                 Filter by the payment status ACCEPTED, PENDING or CANCELED
-     * @return an Observable that emit the network response
-     */
-    @GET("/g_business/v1/payments")
-    Observable<PaginatedList<Payment>> getPaymentList(@Query("limit") int limit, @Query("starting_after") String startingAfter, @Query("starting_after_timestamp") String startingAfterTimestamp, @Query("status") String status);
-
-    /**
      * Get the detail of a transaction
      *
      * @deprecated replaced by {@link #getPayment(long)}
@@ -91,15 +68,6 @@ public interface ProtoCore {
     @Deprecated
     @GET("v2.1/transactions/{id}")
     Observable<TransactionProposal> getTransactionDetail(@Path("id") long transactionId);
-
-    /**
-     * API to retrieve the detail of a specific payment
-     *
-     * @param paymentId     The id of the payment to retrieve
-     * @return a {@link Payment}
-     */
-    @GET("/g_business/v1/payments/{id}")
-    Observable<Payment> getPayment(@Path("id") long paymentId);
 
     /**
      * Communicate to approve a certain proposal
@@ -114,32 +82,16 @@ public interface ProtoCore {
     Observable<TransactionProposal> closeTransaction(@Body CloseTransaction closeTransaction, @Path("id") String transactionId);
 
     /**
-     * API to update the state or the metadata of a payment
-     *
-     * @param paymentId The id of the payment to retrieve
-     * @param paymentUpdate Update: [action] to perform (ACCEPT or CANCEL) and/or [metadata] Generic field that can be used to store the order_id
-     * @return an Observable that emit the new TransactionBean
-     */
-    @PUT("/g_business/v1/payments/{id}")
-    Observable<Payment> updatePayment(@Path("id") String paymentId, @Body PaymentUpdate paymentUpdate);
-
-    /**
      * Communicate to refund a certain transaction
+     *
+     * @deprecated replaced by {@link #createPayment(String, PaymentCreate)}
      *
      * @param transactionId the id of the transaction
      * @return an Observable that emit the new TransactionBean
      */
+    @Deprecated
     @POST("v2/transactions/{id}/refunds")
     Observable<TransactionProposal> refundTransaction(@Path("id") String transactionId);
-
-    /**
-     * API to create a payment, flows: MATCH_CODE or REFUND
-     *
-     * @param paymentCreate Create payment, fields {@link PaymentCreate#PaymentCreate(String, Long, String, Date, String, String, String)}
-     * @return an Observable that emit the new TransactionBean
-     */
-    @POST("/g_business/v1/payments")
-    Observable<Payment> createPayment(@Body PaymentCreate paymentCreate);
 
     /**
      * Given a date, will retrieve the shop daily amount related to the authentication key.
@@ -159,9 +111,57 @@ public interface ProtoCore {
     @GET("v2/profile/me")
     Observable<ProfileMe> profileMe();
 
-    /*********
-     * shops *
-     *********/
+
+    // Payments API
+
+    /**
+     * API to retrieve a list of payments that can be filtered based their status
+     *
+     * @param limit                  A limit on the number of objects to be returned, between 1 and 100
+     * @param startingAfter          Cursor to use in pagination. Starting_after is the id that defines your place in the list.
+     *                               For instance, if you make a list request and receive 100 objects, ending with
+     *                               "f0e8bf89-a119-45d4-ac1b-ee52cccc8932", your subsequent call can include
+     *                               starting_after="f0e8bf89-a119-45d4-ac1b-ee52cccc8932" in order to fetch the next
+     *                               page of the list.
+     * @param startingAfterTimestamp A secondary cursor for use in pagination. starting_after_timestamp is the timestamp that
+     *                               defines your place in the list. See the starting_after description for further details.
+     * @param status                 Filter by the payment status ACCEPTED, PENDING or CANCELED
+     * @return an Observable that emit the network response
+     */
+    @GET("/g_business/v1/payments")
+    Observable<PaginatedList<Payment>> getPaymentList(@Query("limit") int limit, @Query("starting_after") String startingAfter, @Query("starting_after_timestamp") String startingAfterTimestamp, @Query("status") String status);
+
+    /**
+     * API to retrieve the detail of a specific payment
+     *
+     * @param paymentId     The id of the payment to retrieve
+     * @return a {@link Payment}
+     */
+    @GET("/g_business/v1/payments/{id}")
+    Observable<Payment> getPayment(@Path("id") long paymentId);
+
+    /**
+     * API to update the state or the metadata of a payment
+     *
+     * @param paymentId The id of the payment to retrieve
+     * @param paymentUpdate Update: [action] to perform (ACCEPT or CANCEL) and/or [metadata] Generic field that can be used to store the order_id
+     * @return an Observable that emit the new TransactionBean
+     */
+    @PUT("/g_business/v1/payments/{id}")
+    Observable<Payment> updatePayment(@Path("id") String paymentId, @Body PaymentUpdate paymentUpdate);
+
+    /**
+     * API to create a payment, flows: MATCH_CODE or REFUND
+     *
+     * @param idempotencyKey The idempotent token of the request
+     * @param paymentCreate Create payment, fields {@link PaymentCreate#PaymentCreate(String, Long, String, Date, String, String, String)}
+     * @return an Observable that emit the new TransactionBean
+     */
+    @POST("/g_business/v1/payments")
+    Observable<Payment> createPayment(@Header("Idempotency-Key") String idempotencyKey, @Body PaymentCreate paymentCreate);
+
+
+    // Shops API
 
     /**
      * Retrieve the image of a certain shop
@@ -182,9 +182,8 @@ public interface ProtoCore {
     @PUT("v2/shops/{id}/location")
     Observable<Void> saveShopLocation(@Path("id") String shopId, @Body Location location);
 
-    /*************
-     * consumers *
-     *************/
+
+    // Consumers API
 
     @GET("v2/consumers/{id}")
     Observable<Consumer> getConsumerProfile(@Path("id") String consumerId);
@@ -192,27 +191,33 @@ public interface ProtoCore {
     @GET("v2/consumers/{id}/image")
     Observable<ProtoCoreMessage> getConsumerImage(@Path("id") String consumerId);
 
-    /********************
-     * token generation *
-     ********************/
+
+    // Token API
 
     @POST("v2/device_tokens")
     Observable<DeviceToken> generateDeviceToken();
 
-    /*************
-     * analytics *
-     *************/
+
+    // Analytics API
 
     @POST("v2/analytics/events/started")
     Observable<Void> appStarted(@Body AppStartedBean appStartedBean);
 
-    //test API for signature
-    @GET("v2/wally-services/protocol/tests/signature")
-    Observable<ProtoCoreMessage> testSignature();
 
-    /***********
-     * generic *
-     ***********/
+    // Support API
+
+    /**
+     * API to send a support message
+     *
+     * @param idempotencyKey The idempotent token of the request
+     * @param messageRequest Create support request, fields {@link SupportMessageRequest#SupportMessageRequest(String, String, String, SupportMessageRequest.Device)}
+     * @return an Observable that emit the new TransactionBean
+     */
+    @POST("/g_business/v1/support/messages")
+    Observable<Payment> supportMessage(@Header("Idempotency-Key") String idempotencyKey, @Body SupportMessageRequest messageRequest);
+
+
+    // Generic
 
     @GET()
     Observable<Response<ResponseBody>> getObject(@Url String url);
@@ -222,4 +227,10 @@ public interface ProtoCore {
 
     @POST()
     Observable<Response<ResponseBody>> postObject(@Url String url, @Body RequestBody requestBody);
+
+
+    //test API for signature
+
+    @GET("v2/wally-services/protocol/tests/signature")
+    Observable<ProtoCoreMessage> testSignature();
 }
