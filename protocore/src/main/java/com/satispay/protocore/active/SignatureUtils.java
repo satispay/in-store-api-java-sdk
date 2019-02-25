@@ -16,7 +16,10 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -153,7 +156,10 @@ public class SignatureUtils {
 
         String encodedPathString = originalRequest.url().encodedPath();
 
-        if (sdkDeviceInfo != null && encodedPathString != null && encodedPathString.endsWith("/transactions")) {
+        boolean hasSdkDeviceInfo = sdkDeviceInfo != null
+                && originalRequest.method().equals("GET")
+                && (encodedPathString.endsWith("/transactions") || encodedPathString.endsWith("/payments"));
+        if (hasSdkDeviceInfo) {
             requestBuilder.header("x-satispay-devicetype", sdkDeviceInfo.deviceType);
             requestBuilder.header("x-satispay-deviceinfo", sdkDeviceInfo.deviceInfo);
             requestBuilder.header("x-satispay-os", sdkDeviceInfo.osName);
