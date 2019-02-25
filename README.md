@@ -36,7 +36,7 @@ Then, add the library to your module `build.gradle`
 ```gradle
 dependencies {
     // ...
-    compile 'com.github.satispay:in-store-api-java-sdk:0.0.21'
+    compile 'com.github.satispay:in-store-api-java-sdk:0.0.22'
 }
 ```
 
