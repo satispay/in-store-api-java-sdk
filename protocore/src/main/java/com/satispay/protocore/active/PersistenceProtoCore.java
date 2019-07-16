@@ -8,6 +8,7 @@ import com.satispay.protocore.models.payment.Payment;
 import com.satispay.protocore.models.payment.PaymentCreate;
 import com.satispay.protocore.models.payment.PaymentUpdate;
 import com.satispay.protocore.models.profile.ProfileMe;
+import com.satispay.protocore.models.profile.ProfileMeV1;
 import com.satispay.protocore.models.registration.RegistrationBean;
 import com.satispay.protocore.models.transactions.*;
 import com.satispay.protocore.persistence.PersistenceManager;
@@ -134,6 +135,11 @@ public interface PersistenceProtoCore extends ProtoCore {
     @Override
     default Observable<ProfileMe> profileMe() {
         return getProtoCoreProvider().getProtocore().profileMe();
+    }
+
+    @Override
+    default Observable<ProfileMeV1> profileMeV1() {
+        return getProtoCoreProvider().getProtocore().profileMeV1();
     }
 
     @Override

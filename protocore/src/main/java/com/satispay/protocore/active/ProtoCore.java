@@ -9,6 +9,7 @@ import com.satispay.protocore.models.payment.Payment;
 import com.satispay.protocore.models.payment.PaymentCreate;
 import com.satispay.protocore.models.payment.PaymentUpdate;
 import com.satispay.protocore.models.profile.ProfileMe;
+import com.satispay.protocore.models.profile.ProfileMeV1;
 import com.satispay.protocore.models.registration.RegistrationBean;
 import com.satispay.protocore.models.transactions.CloseTransaction;
 import com.satispay.protocore.models.transactions.DailyClosure;
@@ -160,6 +161,16 @@ public interface ProtoCore {
     @POST("/g_business/v1/payments")
     Observable<Payment> createPayment(@Header("Idempotency-Key") String idempotencyKey, @Body PaymentCreate paymentCreate);
 
+
+    // Profile API
+
+    /**
+     * Retrieve the new shop profile
+     *
+     * @return the shop profile info
+     */
+    @GET("/g_business/v1/profile/me")
+    Observable<ProfileMeV1> profileMeV1();
 
     // Shops API
 

@@ -6,6 +6,7 @@ import com.satispay.protocore.active.SdkDeviceInfo;
 import com.satispay.protocore.dh.DHFlow;
 import com.satispay.protocore.dh.UptimeMillisProvider;
 import com.satispay.protocore.models.analytics.AppStartedBean;
+import com.satispay.protocore.models.profile.ProfileMe;
 import com.satispay.protocore.models.transactions.TransactionProposal;
 import com.satispay.protocore.persistence.MemoryPersistenceManager;
 import com.satispay.protocore.persistence.PersistenceManager;
@@ -41,7 +42,7 @@ public class TestMain {
 
         dhFlow.performExchange()
                 .switchMap(exchangeResponseBean -> dhFlow.performChallenge())
-                .switchMap(dhEncryptedResponseBean -> dhFlow.performTokenVerification("DOM01600000000000000"))
+                .switchMap(dhEncryptedResponseBean -> dhFlow.performTokenVerification("7HXHMU"))
                 .switchMap(dhEncryptedResponseBean -> {
                     PersistenceProtoCore persistenceProtoCore = new PersistenceProtoCore() {
 
