@@ -5,7 +5,7 @@ public class AddressV1 extends Model {
     private String stNumber;
     private String city;
     private String zipCode;
-    protected String country;
+    private String country;
 
     public AddressV1() {
     }

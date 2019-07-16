@@ -7,11 +7,13 @@ import com.satispay.protocore.dh.DHFlow;
 import com.satispay.protocore.dh.UptimeMillisProvider;
 import com.satispay.protocore.models.analytics.AppStartedBean;
 import com.satispay.protocore.models.profile.ProfileMe;
+import com.satispay.protocore.models.profile.ProfileMeV1;
 import com.satispay.protocore.models.transactions.TransactionProposal;
 import com.satispay.protocore.persistence.MemoryPersistenceManager;
 import com.satispay.protocore.persistence.PersistenceManager;
 import com.satispay.protocore.persistence.SecurePersistenceManager;
 import com.satispay.protocore.session.SessionManager;
+import rx.Observable;
 
 import java.util.ArrayList;
 
@@ -42,7 +44,7 @@ public class TestMain {
 
         dhFlow.performExchange()
                 .switchMap(exchangeResponseBean -> dhFlow.performChallenge())
-                .switchMap(dhEncryptedResponseBean -> dhFlow.performTokenVerification("7HXHMU"))
+                .switchMap(dhEncryptedResponseBean -> dhFlow.performTokenVerification("QMJF4N"))
                 .switchMap(dhEncryptedResponseBean -> {
                     PersistenceProtoCore persistenceProtoCore = new PersistenceProtoCore() {
 
@@ -104,7 +106,13 @@ public class TestMain {
                             .switchMap(
                                     aVoid -> {
 //                                        securePersistenceManager.persistSecurely(SecurePersistenceManager.SEQUENCE_KEY, "2");
-                                        return persistenceProtoCore.profileMe();
+                                        Observable<ProfileMeV1>  result =  persistenceProtoCore.profileMeV1();
+                                        result.subscribe(
+                                                profileMeV1 ->{
+                                                   System.out.println(profileMeV1.getModel());
+                                                }
+                                        );
+                                        return result;
                                     }
                             );
                 }).subscribe();
