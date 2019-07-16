@@ -113,4 +113,24 @@ public class ProfileMeV1 {
     public void setQrCodeIdentifier(String qrCodeIdentifier) {
         this.qrCodeIdentifier = qrCodeIdentifier;
     }
+
+    public enum MobilityType {
+
+        ON_THE_MOVE("ON_THE_MOVE"),
+        STABLE("STABLE"),
+        BRICK_AND_MORTAR("BRICK_AND_MORTAR");
+
+        private String rawValue;
+
+        MobilityType(String rawValue) {
+
+            this.rawValue = rawValue;
+
+        }
+
+        public String getRawValue() {
+            return rawValue;
+        }
+    }
+
 }
