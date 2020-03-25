@@ -3,8 +3,9 @@ package com.satispay.protocore.models.profile;
 import com.satispay.protocore.models.generic.AddressV1;
 import com.satispay.protocore.models.generic.ImageV1;
 import com.satispay.protocore.models.generic.LocationV1;
-import java.util.ArrayList;
+import com.satispay.protocore.models.generic.Settings;
 
+import java.util.ArrayList;
 
 public class ProfileMeV1 {
 
@@ -18,10 +19,22 @@ public class ProfileMeV1 {
     private String acceptance;
     private String model;
     private String qrCodeIdentifier;
+    private Settings businessAppSettings;
 
     public ProfileMeV1() { }
 
-    public ProfileMeV1(String id, String merchantUid, String name, AddressV1 address, LocationV1 geolocation, ArrayList<ImageV1> images, String localization, String acceptance, String model, String qrCodeIdentifier) {
+    public ProfileMeV1(
+            String id,
+            String merchantUid,
+            String name,
+            AddressV1 address,
+            LocationV1 geolocation,
+            ArrayList<ImageV1> images,
+            String localization,
+            String acceptance,
+            String model,
+            String qrCodeIdentifier,
+            Settings businessAppSettings) {
         this.id = id;
         this.merchantUid = merchantUid;
         this.name = name;
@@ -32,6 +45,7 @@ public class ProfileMeV1 {
         this.acceptance = acceptance;
         this.model = model;
         this.qrCodeIdentifier = qrCodeIdentifier;
+        this.businessAppSettings = businessAppSettings;
     }
 
     public String getId() {
@@ -113,6 +127,10 @@ public class ProfileMeV1 {
     public void setQrCodeIdentifier(String qrCodeIdentifier) {
         this.qrCodeIdentifier = qrCodeIdentifier;
     }
+
+    public Settings getBusinessAppSettings() { return businessAppSettings; }
+
+    public void setBusinessAppSettings(Settings businessAppSettings) { this.businessAppSettings = businessAppSettings; }
 
     public enum MobilityType {
 

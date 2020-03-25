@@ -6,7 +6,6 @@ import com.satispay.protocore.active.SdkDeviceInfo;
 import com.satispay.protocore.dh.DHFlow;
 import com.satispay.protocore.dh.UptimeMillisProvider;
 import com.satispay.protocore.models.analytics.AppStartedBean;
-import com.satispay.protocore.models.profile.ProfileMe;
 import com.satispay.protocore.models.profile.ProfileMeV1;
 import com.satispay.protocore.models.transactions.TransactionProposal;
 import com.satispay.protocore.persistence.MemoryPersistenceManager;
@@ -24,7 +23,7 @@ public class TestMain {
      * and making some sample requests
      */
     public static void main(String[] args) {
-        final SatispayContext satispayContext = SatispayContext.STAGING;
+        final SatispayContext satispayContext = SatispayContext.TEST;
         DHFlow dhFlow = new DHFlow() {
             @Override
             public SatispayContext getSatispayContext() {
@@ -44,7 +43,7 @@ public class TestMain {
 
         dhFlow.performExchange()
                 .switchMap(exchangeResponseBean -> dhFlow.performChallenge())
-                .switchMap(dhEncryptedResponseBean -> dhFlow.performTokenVerification("QMJF4N"))
+                .switchMap(dhEncryptedResponseBean -> dhFlow.performTokenVerification("TU76JQ"))
                 .switchMap(dhEncryptedResponseBean -> {
                     PersistenceProtoCore persistenceProtoCore = new PersistenceProtoCore() {
 
@@ -105,11 +104,11 @@ public class TestMain {
                             .appStarted(new AppStartedBean("", null))
                             .switchMap(
                                     aVoid -> {
-//                                        securePersistenceManager.persistSecurely(SecurePersistenceManager.SEQUENCE_KEY, "2");
+                                    //    securePersistenceManager.persistSecurely(SecurePersistenceManager.SEQUENCE_KEY, "2");
                                         Observable<ProfileMeV1>  result =  persistenceProtoCore.profileMeV1();
                                         result.subscribe(
                                                 profileMeV1 ->{
-                                                   System.out.println(profileMeV1.getModel());
+                                                   System.out.println(ProfileMeV1.MobilityType.BRICK_AND_MORTAR.getRawValue().equals(profileMeV1.getModel()));
                                                 }
                                         );
                                         return result;

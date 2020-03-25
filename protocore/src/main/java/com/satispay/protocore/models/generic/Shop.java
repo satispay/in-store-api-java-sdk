@@ -3,14 +3,16 @@ package com.satispay.protocore.models.generic;
 public class Shop extends Model {
     private String id;
     private String phoneNumber;
+    private String shopPhoneNumber;
     private String name;
     private String type;
     private String imageUrl;
     private Address spotAddressBean;
     private String qrCodeIdentifier;
 
-    public Shop() {
-    }
+    public Shop() { }
+
+
 
     public String getId() {
         return id;
@@ -32,9 +34,7 @@ public class Shop extends Model {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public void setName(String name) { this.name = name; }
 
     public String getType() {
         return type;
@@ -67,6 +67,10 @@ public class Shop extends Model {
     public void setQrCodeIdentifier(String qrCodeIdentifier) {
         this.qrCodeIdentifier = qrCodeIdentifier;
     }
+
+    public String getShopPhoneNumber() { return shopPhoneNumber; }
+
+    public void setShopPhoneNumber(String shopPhoneNumber) { this.shopPhoneNumber = shopPhoneNumber; }
 
     public enum MobilityType {
 
