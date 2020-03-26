@@ -158,7 +158,9 @@ public class SignatureUtils {
 
         boolean hasSdkDeviceInfo = sdkDeviceInfo != null
                 && originalRequest.method().equals("GET")
-                && (encodedPathString.endsWith("/transactions") || encodedPathString.endsWith("/payments"));
+                && (encodedPathString.endsWith("/transactions")
+                || encodedPathString.endsWith("/payments")
+                || encodedPathString.endsWith("/me"));
         if (hasSdkDeviceInfo) {
             requestBuilder.header("x-satispay-devicetype", sdkDeviceInfo.deviceType);
             requestBuilder.header("x-satispay-deviceinfo", sdkDeviceInfo.deviceInfo);
