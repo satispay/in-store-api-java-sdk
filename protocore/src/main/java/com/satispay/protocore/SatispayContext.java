@@ -88,7 +88,7 @@ public interface SatispayContext {
                     "-----END PUBLIC KEY-----";
         }
 
-      /*  @Override
+        @Override
         public String getServerCert() {
             return "-----BEGIN CERTIFICATE-----\n" +
                     "MIIE0DCCA7igAwIBAgIJAIWozCAWiOn0MA0GCSqGSIb3DQEBBQUAMIGgMQswCQYD\n" +
@@ -118,6 +118,6 @@ public interface SatispayContext {
                     "OUrqEh7uWP4/BHQ4f/wgp+h+hxrltDsRiOD6XuzHHazLcKp/IKAVCVN97lQLBB5I\n" +
                     "Z5DzmPIRP+bVxH21YpZG6usGNq2b3KGqpOY5mdWWZWvgwHx1\n" +
                     "-----END CERTIFICATE-----";
-        } */
+        } 
     };
 }
