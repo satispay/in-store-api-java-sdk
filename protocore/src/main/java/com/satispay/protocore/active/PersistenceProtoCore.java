@@ -10,6 +10,7 @@ import com.satispay.protocore.models.payment.PaymentUpdate;
 import com.satispay.protocore.models.profile.ProfileMe;
 import com.satispay.protocore.models.profile.ProfileMeV1;
 import com.satispay.protocore.models.registration.RegistrationBean;
+import com.satispay.protocore.models.request.CheckConsumer;
 import com.satispay.protocore.models.transactions.*;
 import com.satispay.protocore.persistence.PersistenceManager;
 import com.satispay.protocore.utility.GBusinessConverter;
@@ -143,7 +144,7 @@ public interface PersistenceProtoCore extends ProtoCore {
     }
 
     @Override
-    default Observable<String> idFromPhone(String phone) {
+    default Observable<CheckConsumer> idFromPhone(String phone) {
         return getProtoCoreProvider().getProtocore().idFromPhone(phone);
     }
 

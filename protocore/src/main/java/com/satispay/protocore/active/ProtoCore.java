@@ -11,6 +11,7 @@ import com.satispay.protocore.models.payment.PaymentUpdate;
 import com.satispay.protocore.models.profile.ProfileMe;
 import com.satispay.protocore.models.profile.ProfileMeV1;
 import com.satispay.protocore.models.registration.RegistrationBean;
+import com.satispay.protocore.models.request.CheckConsumer;
 import com.satispay.protocore.models.transactions.CloseTransaction;
 import com.satispay.protocore.models.transactions.DailyClosure;
 import com.satispay.protocore.models.transactions.HistoryTransactionsModel;
@@ -179,7 +180,7 @@ public interface ProtoCore {
      * @return the id consumer
      */
     @GET("/g_business/v1/consumers/{phone}")
-    Observable<String> idFromPhone(@Path("phone") String phone);
+    Observable<CheckConsumer> idFromPhone(@Path("phone") String phone);
 
     // Shops API
 
