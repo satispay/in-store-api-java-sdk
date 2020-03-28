@@ -143,6 +143,11 @@ public interface PersistenceProtoCore extends ProtoCore {
     }
 
     @Override
+    default Observable<String> idFromPhone(String phone) {
+        return getProtoCoreProvider().getProtocore().idFromPhone(phone);
+    }
+
+    @Override
     default Observable<ProtoCoreMessage> getShopImage(@Path("id") String shopId) {
         return getProtoCoreProvider().getProtocore().getShopImage(shopId);
     }

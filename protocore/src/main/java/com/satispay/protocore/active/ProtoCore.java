@@ -172,6 +172,7 @@ public interface ProtoCore {
     @GET("/g_business/v1/profile/me")
     Observable<ProfileMeV1> profileMeV1();
 
+
     /**
      * Retrieve the ID consumer from phone
      *
