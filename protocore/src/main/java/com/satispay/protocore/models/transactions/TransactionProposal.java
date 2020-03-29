@@ -29,6 +29,9 @@ public class TransactionProposal {
     public TransactionProposal() {
     }
 
+    public static String TYPE_PAYMENT = "PAYMENT";
+    public static String TYPE_REQUEST = "REQUEST";
+
     private String transactionId;
     private Date transactionDate;
     private Long amount;
@@ -40,6 +43,7 @@ public class TransactionProposal {
     private Boolean expired;
     private Shop shop;
     private Consumer consumer;
+    private String transactionType;
 
     public String getTransactionId() {
         return transactionId;
@@ -129,6 +133,9 @@ public class TransactionProposal {
         this.expired = expired;
     }
 
+    public String getTransactionType() { return transactionType; }
+
+    public void setTransactionType(String transactionType) { this.transactionType = transactionType; }
 
     public enum TransactionState {
         APPROVED("APPROVED"),
