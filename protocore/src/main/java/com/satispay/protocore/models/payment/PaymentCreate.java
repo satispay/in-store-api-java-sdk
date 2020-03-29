@@ -6,6 +6,7 @@ import java.util.Date;
 public class PaymentCreate {
     public static String FLOW_MATCH_CODE = "MATCH_CODE";
     public static String FLOW_REFUND = "REFUND";
+    public static String MATCH_USER = "MATCH_USER";
 
     private String flow;
     private Long amountUnit;
@@ -45,6 +46,10 @@ public class PaymentCreate {
 
     public static PaymentCreate matchCode(Long amountUnit, String currency, Date expirationDate, String metadata, String callbackUrl) {
         return new PaymentCreate(FLOW_MATCH_CODE, amountUnit, currency, expirationDate, metadata, callbackUrl, null);
+    }
+
+    public static PaymentCreate matchUser(Long amountUnit, String currency, Date expirationDate, String metadata, String callbackUrl) {
+        return new PaymentCreate(MATCH_USER, amountUnit, currency, expirationDate, metadata, callbackUrl, null);
     }
 
     public String getFlow() {
