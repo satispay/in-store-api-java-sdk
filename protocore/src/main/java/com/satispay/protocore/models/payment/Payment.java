@@ -12,6 +12,8 @@ public class Payment {
     public Payment() {
     }
 
+    public static String FLOW_CHARGE = "CHARGE";
+
     private String id;
     private String type;
     private long amountUnit;
@@ -26,6 +28,7 @@ public class Payment {
     private DailyClosure dailyClosure;
     private Date insertDate;
     private Date expireDate;
+    private String flow;
 
     public String getId() {
         return id;
@@ -130,6 +133,10 @@ public class Payment {
     public void setExpireDate(Date expireDate) {
         this.expireDate = expireDate;
     }
+
+    public String getFlow() { return flow; }
+
+    public void setFlow(String flow) { this.flow = flow; }
 
     public TransactionProposal toTransactionProposal() {
         DailyClosure dailyClosure = getDailyClosure();
