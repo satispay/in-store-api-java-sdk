@@ -44,6 +44,7 @@ public class TransactionProposal {
     private Shop shop;
     private Consumer consumer;
     private String transactionType;
+    private String comment;
 
     public String getTransactionId() {
         return transactionId;
@@ -136,6 +137,10 @@ public class TransactionProposal {
     public String getTransactionType() { return transactionType; }
 
     public void setTransactionType(String transactionType) { this.transactionType = transactionType; }
+
+    public String getComment() { return comment; }
+
+    public void setComment(String comment) { this.comment = comment; }
 
     public enum TransactionState {
         APPROVED("APPROVED"),

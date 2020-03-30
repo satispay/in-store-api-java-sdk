@@ -32,6 +32,7 @@ public class Payment {
     private Date insertDate;
     private Date expireDate;
     private String flow;
+    private String comment;
 
     public String getId() {
         return id;
@@ -141,6 +142,10 @@ public class Payment {
 
     public void setFlow(String flow) { this.flow = flow; }
 
+    public String getComment() { return comment; }
+
+    public void setComment(String comment) { this.comment = comment; }
+
     public TransactionProposal toTransactionProposal() {
         DailyClosure dailyClosure = getDailyClosure();
         Sender sender = getSender();
@@ -195,6 +200,7 @@ public class Payment {
         historyTransactionsModel.setConsumer(consumer);
         historyTransactionsModel.setExpired(isExpired());
         historyTransactionsModel.setTransactionType((getFlow() == null ) ? TYPE_PAYMENT : TYPE_REQUEST);
+        historyTransactionsModel.setComment(getComment());
         return historyTransactionsModel;
     }
 
