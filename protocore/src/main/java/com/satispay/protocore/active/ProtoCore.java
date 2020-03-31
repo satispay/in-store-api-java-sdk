@@ -133,6 +133,9 @@ public interface ProtoCore {
     @GET("/g_business/v1/payments")
     Observable<PaginatedList<Payment>> getPaymentList(@Query("limit") int limit, @Query("starting_after") String startingAfter, @Query("starting_after_timestamp") String startingAfterTimestamp, @Query("status") String status);
 
+    //@GET("/g_business/v1/payments")
+    //Observable<PaginatedList<Payment>> getPaymentAndRequestList(@Query("limit") int limit, @Query("starting_after") String startingAfter, @Query("starting_after_timestamp") String startingAfterTimestamp);
+
     /**
      * API to retrieve the detail of a specific payment
      *

@@ -30,7 +30,6 @@ public class TransactionProposal {
     }
 
     public static String TYPE_PAYMENT = "PAYMENT";
-    public static String TYPE_REQUEST = "REQUEST";
 
     private String transactionId;
     private Date transactionDate;

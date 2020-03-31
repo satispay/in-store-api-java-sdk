@@ -7,6 +7,7 @@ import com.satispay.protocore.dh.DHFlow;
 import com.satispay.protocore.dh.UptimeMillisProvider;
 import com.satispay.protocore.models.analytics.AppStartedBean;
 import com.satispay.protocore.models.profile.ProfileMeV1;
+import com.satispay.protocore.models.transactions.RequestTransaction;
 import com.satispay.protocore.models.transactions.TransactionProposal;
 import com.satispay.protocore.persistence.MemoryPersistenceManager;
 import com.satispay.protocore.persistence.PersistenceManager;
@@ -55,11 +56,21 @@ public class TestMain {
                                 }
 
                                 @Override
+                                public void persistRequest(ArrayList<RequestTransaction> requestTransactions) {
+
+                                }
+
+                                @Override
                                 public void persistClosedTransaction(TransactionProposal transactionProposal) {
                                 }
 
                                 @Override
                                 public void persistTransactionsPolling(ArrayList<TransactionProposal> transactionProposals) {
+                                }
+
+                                @Override
+                                public void persistRequestPolling(ArrayList<RequestTransaction> requestTransactions) {
+
                                 }
                             };
                         }
