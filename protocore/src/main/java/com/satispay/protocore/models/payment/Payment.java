@@ -228,8 +228,8 @@ public class Payment {
         }
 
         RequestTransaction requestTransaction = new RequestTransaction();
-        requestTransaction.setTransactionId(getId());
-        requestTransaction.setTransactionDate(getInsertDate());
+        requestTransaction.setRequestId(getId());
+        requestTransaction.setRequestTransactionDate(getInsertDate());
         requestTransaction.setAmount(getAmountUnit());
         requestTransaction.setType(getType());
         if (dailyClosure != null) {
@@ -257,7 +257,7 @@ public class Payment {
         requestTransaction.setShop(shop);
         requestTransaction.setConsumer(consumer);
         requestTransaction.setExpired(isExpired());
-        requestTransaction.setTransactionType(TYPE_PAYMENT);
+        requestTransaction.setRequestTransactionType(TYPE_PAYMENT);
         requestTransaction.setComment(getComment());
         return requestTransaction;
     }

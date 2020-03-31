@@ -9,8 +9,8 @@ public class RequestTransaction {
 
     public static String TYPE_PAYMENT = "REQUEST";
 
-    private String transactionId;
-    private Date transactionDate;
+    private String requestId;
+    private Date requestTransactionDate;
     private Long amount;
     private String type;
     private String dailyClosure;
@@ -20,7 +20,7 @@ public class RequestTransaction {
     private Boolean expired;
     private Shop shop;
     private Consumer consumer;
-    private String transactionType;
+    private String requestTransactionType;
     private String comment;
 
 
@@ -28,20 +28,20 @@ public class RequestTransaction {
 
     }
 
-        public String getTransactionId() {
-            return transactionId;
+        public String getRequestId() {
+            return requestId;
         }
 
-        public void setTransactionId(String transactionId) {
-            this.transactionId = transactionId;
+        public void setRequestId(String requestId) {
+            this.requestId = requestId;
         }
 
-        public Date getTransactionDate() {
-            return transactionDate;
+        public Date getRequestTransactionDate() {
+            return requestTransactionDate;
         }
 
-        public void setTransactionDate(Date transactionDate) {
-            this.transactionDate = transactionDate;
+        public void setRequestTransactionDate(Date requestTransactionDate) {
+            this.requestTransactionDate = requestTransactionDate;
         }
 
         public Long getAmount() {
@@ -116,9 +116,9 @@ public class RequestTransaction {
             this.expired = expired;
         }
 
-        public String getTransactionType() { return transactionType; }
+        public String getRequestTransactionType() { return requestTransactionType; }
 
-        public void setTransactionType(String transactionType) { this.transactionType = transactionType; }
+        public void setRequestTransactionType(String requestTransactionType) { this.requestTransactionType = requestTransactionType; }
 
         public String getComment() { return comment; }
 
@@ -152,7 +152,7 @@ public class RequestTransaction {
 
         @Override
         public boolean equals(Object obj) {
-            return obj instanceof TransactionProposal && ((TransactionProposal) obj).getTransactionId().equals(transactionId);
+            return obj instanceof TransactionProposal && ((TransactionProposal) obj).getTransactionId().equals(requestId);
         }
 
         @Override
