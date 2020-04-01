@@ -174,10 +174,16 @@ public class Payment {
         historyTransactionsModel.setTransactionDate(getInsertDate());
         historyTransactionsModel.setAmount(getAmountUnit());
         historyTransactionsModel.setType(getType());
+
         if (dailyClosure != null) {
             historyTransactionsModel.setDailyClosure(dailyClosure.getId());
             historyTransactionsModel.setDailyClosureDate(dailyClosure.getDate());
         }
+        else{
+            historyTransactionsModel.setDailyClosure(String.valueOf(getInsertDate().getTime()));
+            historyTransactionsModel.setDailyClosureDate(getInsertDate());
+        }
+
         String state;
         String status = getStatus();
         switch (status) {
