@@ -62,11 +62,6 @@ public class TestMain {
                                 @Override
                                 public void persistTransactionsPolling(ArrayList<TransactionProposal> transactionProposals) {
                                 }
-
-                                @Override
-                                public void filterRequestDailyClosureBug(ArrayList<TransactionProposal> transactionProposals) {
-
-                                }
                             };
                         }
 

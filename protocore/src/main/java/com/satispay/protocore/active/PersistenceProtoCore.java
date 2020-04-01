@@ -102,7 +102,6 @@ public interface PersistenceProtoCore extends ProtoCore {
             if (status != null) {
                 getPersistenceManager().persistTransactionsPolling(historyTransactionsModel.getList());
             } else {
-                getPersistenceManager().filterRequestDailyClosureBug(historyTransactionsModel.getList());
                 getPersistenceManager().persistTransactions(historyTransactionsModel.getList());
             }
             return paymentPaginatedList;

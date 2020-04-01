@@ -28,7 +28,4 @@ public interface PersistenceManager {
      */
     void persistTransactionsPolling(ArrayList<TransactionProposal> transactionProposals);
 
-
-
-    void filterRequestDailyClosureBug(ArrayList<TransactionProposal> transactionProposals);
 }

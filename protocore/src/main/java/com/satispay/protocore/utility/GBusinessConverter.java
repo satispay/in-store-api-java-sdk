@@ -7,8 +7,6 @@ import com.satispay.protocore.models.transactions.TransactionProposal;
 
 import java.util.ArrayList;
 
-import static com.satispay.protocore.models.payment.Payment.FLOW_CHARGE;
-
 public class GBusinessConverter {
 
     static public HistoryTransactionsModel toHistoryTransactionsModel(PaginatedList<Payment> paymentPaginatedList) {
@@ -18,9 +16,9 @@ public class GBusinessConverter {
         ArrayList<TransactionProposal> list = new ArrayList<>();
         historyTransactionsModel.setList(list);
         for (Payment payment : paymentPaginatedList.getData()) {
-            list.add(payment.toTransactionProposal());
+                list.add(payment.toTransactionProposal());
         }
         return historyTransactionsModel;
     }
-
 }
+
