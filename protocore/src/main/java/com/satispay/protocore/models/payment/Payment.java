@@ -3,7 +3,6 @@ package com.satispay.protocore.models.payment;
 import com.satispay.protocore.models.generic.Consumer;
 import com.satispay.protocore.models.generic.PaginatedList;
 import com.satispay.protocore.models.generic.Shop;
-import com.satispay.protocore.models.transactions.RequestTransaction;
 import com.satispay.protocore.models.transactions.TransactionProposal;
 
 import java.util.Date;
@@ -204,63 +203,6 @@ public class Payment {
         return historyTransactionsModel;
     }
 
-    public RequestTransaction toRequestTransaction() {
-        DailyClosure dailyClosure = getDailyClosure();
-        Sender sender = getSender();
-
-        Shop shop = new Shop();
-        Receiver receiver = getReceiver();
-        if (receiver != null) {
-            shop.setId(receiver.getId());
-            shop.setType(receiver.getType());
-        }
-
-        Consumer consumer = new Consumer();
-        if (sender != null) {
-            consumer.setId(sender.getId());
-            consumer.setName(sender.getName());
-            try {
-                String imageUrl = sender.getProfilePictures().getData().get(0).getUrl();
-                consumer.setImageUrl(imageUrl);
-            } catch (Exception e) {
-                // ignore missing url
-            }
-        }
-
-        RequestTransaction requestTransaction = new RequestTransaction();
-        requestTransaction.setRequestId(getId());
-        requestTransaction.setRequestTransactionDate(getInsertDate());
-        requestTransaction.setAmount(getAmountUnit());
-        requestTransaction.setType(getType());
-        if (dailyClosure != null) {
-            requestTransaction.setDailyClosure(dailyClosure.getId());
-            requestTransaction.setDailyClosureDate(dailyClosure.getDate());
-        }
-        String state;
-        String status = getStatus();
-        switch (status) {
-            case "ACCEPTED":
-                state = "APPROVED";
-                break;
-            case "CANCELED":
-                state = "CANCELED";
-                break;
-            case "PENDING":
-                state = "PENDING";
-                break;
-            default:
-                state = status;
-                break;
-        }
-        requestTransaction.setState(state);
-        requestTransaction.setStateOwnership(isStatusOwnership());
-        requestTransaction.setShop(shop);
-        requestTransaction.setConsumer(consumer);
-        requestTransaction.setExpired(isExpired());
-        requestTransaction.setRequestTransactionType(TYPE_PAYMENT);
-        requestTransaction.setComment(getComment());
-        return requestTransaction;
-    }
 
     public class DailyClosure {
         public DailyClosure() {

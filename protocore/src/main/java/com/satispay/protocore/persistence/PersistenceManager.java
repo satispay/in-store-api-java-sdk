@@ -1,6 +1,5 @@
 package com.satispay.protocore.persistence;
 
-import com.satispay.protocore.models.transactions.RequestTransaction;
 import com.satispay.protocore.models.transactions.TransactionProposal;
 
 import java.util.ArrayList;
@@ -13,9 +12,6 @@ public interface PersistenceManager {
      * @param transactionProposals the list of transactions to persist
      */
     void persistTransactions(ArrayList<TransactionProposal> transactionProposals);
-
-
-    void persistRequest(ArrayList<RequestTransaction> requestTransactions);
 
     /**
      * This method persists the bean returned by closing a transaction which represents part of
@@ -33,6 +29,6 @@ public interface PersistenceManager {
     void persistTransactionsPolling(ArrayList<TransactionProposal> transactionProposals);
 
 
-    void persistRequestPolling(ArrayList<RequestTransaction> requestTransactions);
 
+    void filterRequestDailyClosureBug(ArrayList<TransactionProposal> transactionProposals);
 }

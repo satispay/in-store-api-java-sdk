@@ -99,20 +99,17 @@ public interface PersistenceProtoCore extends ProtoCore {
     default Observable<PaginatedList<Payment>> getPaymentList(@Query("limit") int limit, @Query("starting_after") String startingAfter, @Query("starting_after_timestamp") String startingAfterTimestamp, @Query("status") String status) {
         return getProtoCoreProvider().getProtocore().getPaymentList(limit, startingAfter, startingAfterTimestamp, status).map(paymentPaginatedList -> {
             HistoryTransactionsModel historyTransactionsModel = GBusinessConverter.toHistoryTransactionsModel(paymentPaginatedList);
-            HistoryRequestModel historyRequestModel = GBusinessConverter.toHistoryRequestsModel(paymentPaginatedList);
-
             if (status != null) {
                 getPersistenceManager().persistTransactionsPolling(historyTransactionsModel.getList());
-                getPersistenceManager().persistRequestPolling(historyRequestModel.getList());
-
-
             } else {
+                getPersistenceManager().filterRequestDailyClosureBug(historyTransactionsModel.getList());
                 getPersistenceManager().persistTransactions(historyTransactionsModel.getList());
-                getPersistenceManager().persistRequest(historyRequestModel.getList());
             }
             return paymentPaginatedList;
         });
     }
+
+
 
 
     @Override
