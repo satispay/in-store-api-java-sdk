@@ -18,9 +18,6 @@ public class GBusinessConverter {
         ArrayList<TransactionProposal> list = new ArrayList<>();
         historyTransactionsModel.setList(list);
         for (Payment payment : paymentPaginatedList.getData()) {
-            if(payment.getFlow().equals(FLOW_CHARGE)) {
-                // TODO logic
-            }
             list.add(payment.toTransactionProposal());
         }
         return historyTransactionsModel;

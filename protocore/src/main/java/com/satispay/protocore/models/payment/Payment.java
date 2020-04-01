@@ -8,6 +8,7 @@ import com.satispay.protocore.models.transactions.TransactionProposal;
 import java.util.Date;
 
 import static com.satispay.protocore.models.transactions.TransactionProposal.TYPE_PAYMENT;
+import static com.satispay.protocore.models.transactions.TransactionProposal.TYPE_REQUEST;
 
 
 public class Payment {
@@ -198,7 +199,7 @@ public class Payment {
         historyTransactionsModel.setShop(shop);
         historyTransactionsModel.setConsumer(consumer);
         historyTransactionsModel.setExpired(isExpired());
-        historyTransactionsModel.setTransactionType(TYPE_PAYMENT);
+        historyTransactionsModel.setTransactionType((getFlow() == null ) ? TYPE_PAYMENT : TYPE_REQUEST);
         historyTransactionsModel.setComment(getComment());
         return historyTransactionsModel;
     }
