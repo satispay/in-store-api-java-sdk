@@ -5,6 +5,8 @@ import com.satispay.protocore.models.generic.PaginatedList;
 import com.satispay.protocore.models.generic.Shop;
 import com.satispay.protocore.models.transactions.TransactionProposal;
 
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import static com.satispay.protocore.models.transactions.TransactionProposal.TYPE_PAYMENT;
@@ -180,7 +182,8 @@ public class Payment {
             historyTransactionsModel.setDailyClosureDate(dailyClosure.getDate());
         }
         else{
-            historyTransactionsModel.setDailyClosure(String.valueOf(getInsertDate().getTime()));
+
+            historyTransactionsModel.setDailyClosure(new SimpleDateFormat("YYYYmmdd").format(getInsertDate()));
             historyTransactionsModel.setDailyClosureDate(getInsertDate());
         }
 
