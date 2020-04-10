@@ -6,7 +6,6 @@ import com.satispay.protocore.models.generic.Shop;
 import com.satispay.protocore.models.transactions.TransactionProposal;
 
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
 
@@ -35,6 +34,7 @@ public class Payment {
     private Date insertDate;
     private Date expireDate;
     private String flow;
+    private String description;
     private String comment;
 
     public String getId() {
@@ -149,6 +149,10 @@ public class Payment {
 
     public void setComment(String comment) { this.comment = comment; }
 
+    public String getDescription() { return description; }
+
+    public void setDescription(String description) { this.description = description; }
+
     public TransactionProposal toTransactionProposal() {
         DailyClosure dailyClosure = getDailyClosure();
         Sender sender = getSender();
@@ -211,6 +215,7 @@ public class Payment {
         historyTransactionsModel.setExpired(isExpired());
         historyTransactionsModel.setTransactionType((getFlow() == null ) ? TYPE_PAYMENT : TYPE_REQUEST);
         historyTransactionsModel.setComment(getComment());
+        historyTransactionsModel.setDescription(getDescription());
         return historyTransactionsModel;
     }
 
