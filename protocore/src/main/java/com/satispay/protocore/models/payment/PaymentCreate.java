@@ -18,8 +18,23 @@ public class PaymentCreate {
     private String consumerId;
     private String consumerUid;
     private String comment;
+    private String description;
 
     public PaymentCreate() {
+    }
+
+    public PaymentCreate(String flow, Long amountUnit, String currency, Date expirationDate, String metadata, String callbackUrl, String parentPaymentUid, String consumerId, String consumerUid, String comment, String description) {
+        this.flow = flow;
+        this.amountUnit = amountUnit;
+        this.currency = currency;
+        this.expirationDate = expirationDate;
+        this.metadata = metadata;
+        this.callbackUrl = callbackUrl;
+        this.parentPaymentUid = parentPaymentUid;
+        this.consumerId = consumerId;
+        this.consumerUid = consumerUid;
+        this.comment = comment;
+        this.description = description;
     }
 
     /**
@@ -33,29 +48,23 @@ public class PaymentCreate {
      * @param callbackUrl The url that will be called when the Payment changes state. When url is called a Get payment details can be called to know the new Payment status. Note that {uuid} will be replaced with the Payment ID
      * @param parentPaymentUid Unique ID of the payment to refund (Required if flow is REFUND)
      */
-    public PaymentCreate(String flow, Long amountUnit, String currency, Date expirationDate, String metadata, String callbackUrl, String parentPaymentUid, String consumerId, String consumerUid, String comment) {
-        this.flow = flow;
-        this.amountUnit = amountUnit;
-        this.currency = currency;
-        this.expirationDate = expirationDate;
-        this.metadata = metadata;
-        this.callbackUrl = callbackUrl;
-        this.parentPaymentUid = parentPaymentUid;
-        this.consumerId = consumerId;
-        this.consumerUid = consumerUid;
-        this.comment = comment;
-    }
+
 
     public static PaymentCreate refund(Long amountUnit, String currency, String metadata, String parentPaymentUid) {
-        return new PaymentCreate(FLOW_REFUND, amountUnit, currency, null, metadata, null, parentPaymentUid,null,null,null);
+        return new PaymentCreate(FLOW_REFUND, amountUnit, currency, null, metadata, null, parentPaymentUid,null,null,null,null);
     }
 
     public static PaymentCreate matchCode(Long amountUnit, String currency, Date expirationDate, String metadata, String callbackUrl) {
-        return new PaymentCreate(FLOW_MATCH_CODE, amountUnit, currency, expirationDate, metadata, callbackUrl, null,null,null,null);
+        return new PaymentCreate(FLOW_MATCH_CODE, amountUnit, currency, expirationDate, metadata, callbackUrl, null,null,null,null,null);
     }
 
     public static PaymentCreate matchUser(Long amountUnit, String currency, String consumerUid, String comment) {
-        return new PaymentCreate(MATCH_USER, amountUnit, currency, null, null, null, null, null,consumerUid,comment);
+        return new PaymentCreate(MATCH_USER, amountUnit, currency, null, null, null, null, null,consumerUid,comment,null);
+    }
+
+    // TODO WORKAROUND REMAPPED COMMENT TO DESCRIPTION TAKEAWAY
+    public static PaymentCreate matchUserWorkAround(Long amountUnit, String currency, String consumerUid, String description) {
+        return new PaymentCreate(MATCH_USER, amountUnit, currency, null, null, null, null, null,consumerUid,null,description);
     }
 
     public String getFlow() {
@@ -125,4 +134,8 @@ public class PaymentCreate {
     public String getComment() { return comment; }
 
     public void setComment(String comment) { this.comment = comment; }
+
+    public String getDescription() { return description; }
+
+    public void setDescription(String description) { this.description = description; }
 }
