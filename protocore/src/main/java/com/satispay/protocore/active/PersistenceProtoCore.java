@@ -24,6 +24,7 @@ import retrofit2.http.Url;
 import rx.Observable;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class describes the class that will handle persistence operation just after network operations.
@@ -96,7 +97,7 @@ public interface PersistenceProtoCore extends ProtoCore {
     }
 
     @Override
-    default Observable<PaginatedList<Payment>> getPaymentList(@Query("limit") int limit, @Query("starting_after") String startingAfter, @Query("starting_after_timestamp") String startingAfterTimestamp, @Query("status") String status) {
+    default Observable<PaginatedList<Payment>> getPaymentList(@Query("limit") int limit, @Query("starting_after") String startingAfter, @Query("starting_after_timestamp") String startingAfterTimestamp, @Query("status") List<String> status) {
         return getProtoCoreProvider().getProtocore().getPaymentList(limit, startingAfter, startingAfterTimestamp, status).map(paymentPaginatedList -> {
             HistoryTransactionsModel historyTransactionsModel = GBusinessConverter.toHistoryTransactionsModel(paymentPaginatedList);
             if (status != null) {

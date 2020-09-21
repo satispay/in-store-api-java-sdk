@@ -132,6 +132,10 @@ public class ProfileMeV1 {
 
     public void setBusinessAppSettings(Settings businessAppSettings) { this.businessAppSettings = businessAppSettings; }
 
+    public Boolean isImplicitAcceptance(){
+        return acceptance != null && this.acceptance.equals("IMPLICIT");
+    }
+
     public enum MobilityType {
 
         ON_THE_MOVE("ON_THE_MOVE"),

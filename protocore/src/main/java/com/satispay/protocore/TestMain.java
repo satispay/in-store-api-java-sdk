@@ -6,6 +6,8 @@ import com.satispay.protocore.active.SdkDeviceInfo;
 import com.satispay.protocore.dh.DHFlow;
 import com.satispay.protocore.dh.UptimeMillisProvider;
 import com.satispay.protocore.models.analytics.AppStartedBean;
+import com.satispay.protocore.models.generic.PaginatedList;
+import com.satispay.protocore.models.payment.Payment;
 import com.satispay.protocore.models.profile.ProfileMeV1;
 import com.satispay.protocore.models.transactions.TransactionProposal;
 import com.satispay.protocore.persistence.MemoryPersistenceManager;
@@ -15,6 +17,7 @@ import com.satispay.protocore.session.SessionManager;
 import rx.Observable;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TestMain {
 

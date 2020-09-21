@@ -23,6 +23,7 @@ import retrofit2.http.*;
 import rx.Observable;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * This interface describes the API exposed for the active state of a business application.
@@ -131,7 +132,7 @@ public interface ProtoCore {
      * @return an Observable that emit the network response
      */
     @GET("/g_business/v1/payments")
-    Observable<PaginatedList<Payment>> getPaymentList(@Query("limit") int limit, @Query("starting_after") String startingAfter, @Query("starting_after_timestamp") String startingAfterTimestamp, @Query("status") String status);
+    Observable<PaginatedList<Payment>> getPaymentList(@Query("limit") int limit, @Query("starting_after") String startingAfter, @Query("starting_after_timestamp") String startingAfterTimestamp, @Query("status") List<String> status);
 
     //@GET("/g_business/v1/payments")
     //Observable<PaginatedList<Payment>> getPaymentAndRequestList(@Query("limit") int limit, @Query("starting_after") String startingAfter, @Query("starting_after_timestamp") String startingAfterTimestamp);
@@ -159,7 +160,7 @@ public interface ProtoCore {
      * API to create a payment, flows: MATCH_CODE or REFUND
      *
      * @param idempotencyKey The idempotent token of the request
-     * @param paymentCreate Create payment, fields {@link PaymentCreate#PaymentCreate(String, Long, String, Date, String, String, String)}
+     * @param paymentCreate Create payment, fields {@link PaymentCreate #PaymentCreate(String, Long, String, Date, String, String, String)}
      * @return an Observable that emit the new TransactionBean
      */
     @POST("/g_business/v1/payments")
