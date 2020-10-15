@@ -17,6 +17,7 @@
 
 *.iml
 *.log
+*.DS_Store
 
 # Android
 gen/

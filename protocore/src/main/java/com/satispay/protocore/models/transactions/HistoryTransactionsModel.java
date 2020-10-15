@@ -30,6 +30,18 @@ public class HistoryTransactionsModel {
         return list;
     }
 
+    public ArrayList<TransactionProposal> getFilteredList() {
+        ArrayList<TransactionProposal> filteredList = new ArrayList<>();
+
+        for (int i = 0; i < list.size(); i++) {
+            TransactionProposal proposal = list.get(i);
+            if (proposal.getConsumer().getId() != null)
+                filteredList.add(proposal);
+        }
+
+        return filteredList;
+    }
+
     public void setList(ArrayList<TransactionProposal> list) {
         this.list = list;
     }
