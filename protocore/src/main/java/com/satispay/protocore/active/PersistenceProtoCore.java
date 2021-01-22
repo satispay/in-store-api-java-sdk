@@ -208,4 +208,9 @@ public interface PersistenceProtoCore extends ProtoCore {
     default Observable<ProtoCoreMessage> testSignature() {
         return getProtoCoreProvider().getProtocore().testSignature();
     }
+
+    @Override
+    default Observable<Response<ResponseBody>> getPdfFile(String url) {
+        return getProtoCoreProvider().getProtocoreNoAuth().getPdfFile(url);
+    }
 }

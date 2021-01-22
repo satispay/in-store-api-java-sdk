@@ -1,6 +1,5 @@
 package com.satispay.protocore.active;
 
-
 import com.satispay.protocore.ProtoCoreMessage;
 import com.satispay.protocore.models.analytics.AppStartedBean;
 import com.satispay.protocore.models.device.DeviceToken;
@@ -21,21 +20,16 @@ import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.http.*;
 import rx.Observable;
-
-import java.util.Date;
 import java.util.List;
 
 /**
  * This interface describes the API exposed for the active state of a business application.
  */
 public interface ProtoCore {
-
-
     // Version API
 
     @GET("v2/versions/{os}/{versionCode}")
     Observable<VersionUpdate> versionUpdate(@Path("os") String os, @Path("versionCode") Long versionCode);
-
 
     // Devices API
 
@@ -258,4 +252,7 @@ public interface ProtoCore {
 
     @GET("v2/wally-services/protocol/tests/signature")
     Observable<ProtoCoreMessage> testSignature();
+
+    @GET()
+    Observable<Response<ResponseBody>> getPdfFile(@Url String url);
 }

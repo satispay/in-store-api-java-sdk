@@ -58,4 +58,21 @@ public interface ProtoCoreProvider {
                 .build();
         return retrofit.create(ProtoCore.class);
     }
+
+    default ProtoCore getProtocoreNoAuth() {
+        Gson gson = NetworkUtilities.getGson();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(getSatispayContext().getBaseUrl())
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .client(
+                        getProtocoreHttpClientProvider().getProtocoreClientNoSignatureVerify(
+                                getSatispayContext(),
+                                getSecurePersistenceManager(),
+                                getSdkDeviceInfo()
+                        )
+                )
+                .build();
+        return retrofit.create(ProtoCore.class);
+    }
 }
