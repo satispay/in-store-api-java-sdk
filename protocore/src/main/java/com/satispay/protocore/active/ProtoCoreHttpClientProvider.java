@@ -151,16 +151,6 @@ public class ProtoCoreHttpClientProvider {
 
                 Request originalRequest = chain.request();
                 Request.Builder requestBuilder = originalRequest.newBuilder();
-
-               try {
-
-                    //**** ==>  here request headers are populated
-                    requestBuilder = SignatureUtils.fillHeaders(requestBuilder, originalRequest, sdkDeviceInfo, securePersistenceManager);
-
-                } catch (Throwable t) {
-                    t.printStackTrace();
-                }
-
                 return chain.proceed(requestBuilder.build());
 
             });
