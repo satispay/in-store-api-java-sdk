@@ -138,33 +138,10 @@ public class ProtoCoreHttpClientProvider {
      * @param satispayContext indicates if an {@link okhttp3.logging.HttpLoggingInterceptor} needs to be added to the client
      * @return an instance of an {@link OkHttpClient}
      */
-    public OkHttpClient getProtocoreClientNoSignatureVerify(SatispayContext satispayContext,
-                                                            final SecurePersistenceManager securePersistenceManager,
-                                                            final SdkDeviceInfo sdkDeviceInfo) {
+    public OkHttpClient getProtocoreClientNoSignatureVerify(SatispayContext satispayContext) {
 
         OkHttpClient.Builder clientBuilder = NetworkUtilities.getClientNoCert(satispayContext);
-
         try {
-
-            // ==> here the interceptor which populates the signature headers in all the requests is added to the client
-            clientBuilder.addInterceptor(chain -> {
-
-                Request originalRequest = chain.request();
-                Request.Builder requestBuilder = originalRequest.newBuilder();
-
-               try {
-
-                    //**** ==>  here request headers are populated
-                    requestBuilder = SignatureUtils.fillHeaders(requestBuilder, originalRequest, sdkDeviceInfo, securePersistenceManager);
-
-                } catch (Throwable t) {
-                    t.printStackTrace();
-                }
-
-                return chain.proceed(requestBuilder.build());
-
-            });
-
             // ==> the HTTP logging interceptor is added only in DEBUG mode
             if (satispayContext.enableLog()) {
                 HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();

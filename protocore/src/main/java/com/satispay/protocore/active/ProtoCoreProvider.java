@@ -66,11 +66,7 @@ public interface ProtoCoreProvider {
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .client(
-                        getProtocoreHttpClientProvider().getProtocoreClientNoSignatureVerify(
-                                getSatispayContext(),
-                                getSecurePersistenceManager(),
-                                getSdkDeviceInfo()
-                        )
+                        getProtocoreHttpClientProvider().getProtocoreClientNoSignatureVerify(getSatispayContext())
                 )
                 .build();
         return retrofit.create(ProtoCore.class);
