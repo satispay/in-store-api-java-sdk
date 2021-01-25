@@ -142,7 +142,7 @@ public class ProtoCoreHttpClientProvider {
                                                             final SecurePersistenceManager securePersistenceManager,
                                                             final SdkDeviceInfo sdkDeviceInfo) {
 
-        OkHttpClient.Builder clientBuilder = NetworkUtilities.getClient(satispayContext);
+        OkHttpClient.Builder clientBuilder = NetworkUtilities.getClientNoCert(satispayContext);
 
         try {
 
@@ -151,6 +151,16 @@ public class ProtoCoreHttpClientProvider {
 
                 Request originalRequest = chain.request();
                 Request.Builder requestBuilder = originalRequest.newBuilder();
+
+               try {
+
+                    //**** ==>  here request headers are populated
+                    requestBuilder = SignatureUtils.fillHeaders(requestBuilder, originalRequest, sdkDeviceInfo, securePersistenceManager);
+
+                } catch (Throwable t) {
+                    t.printStackTrace();
+                }
+
                 return chain.proceed(requestBuilder.build());
 
             });

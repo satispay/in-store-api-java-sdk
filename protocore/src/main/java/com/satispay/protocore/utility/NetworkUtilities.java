@@ -49,6 +49,15 @@ public class NetworkUtilities {
         return okHttpClientBuilder;
     }
 
+    public static OkHttpClient.Builder getClientNoCert(SatispayContext satispayContext) {
+        OkHttpClient.Builder okHttpClientBuilder;
+        okHttpClientBuilder = new OkHttpClient.Builder();
+        okHttpClientBuilder.connectTimeout(10, TimeUnit.SECONDS);
+        okHttpClientBuilder.writeTimeout(10, TimeUnit.SECONDS);
+        okHttpClientBuilder.readTimeout(30, TimeUnit.SECONDS);
+        return okHttpClientBuilder;
+    }
+
     public static Gson getGson() {
         return new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
