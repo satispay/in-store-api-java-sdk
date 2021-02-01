@@ -64,8 +64,8 @@ public class PaymentCreate {
         return new PaymentCreate(MATCH_USER, amountUnit, currency, null, null, null, null, null,consumerUid,comment,null,null);
     }
 
-    public static PaymentCreate matchUserWorkAround(Long amountUnit, String currency, String consumerUid, String externalCode) {
-        return new PaymentCreate(MATCH_USER, amountUnit, currency, null, null, null, null, null,consumerUid,null,null,externalCode);
+    public static PaymentCreate matchUserWorkAround(Long amountUnit, String currency, String consumerUid, String description, String externalCode) {
+        return new PaymentCreate(MATCH_USER, amountUnit, currency, null, null, null, null, null,consumerUid,null,description,externalCode);
     }
 
     public String getFlow() {
