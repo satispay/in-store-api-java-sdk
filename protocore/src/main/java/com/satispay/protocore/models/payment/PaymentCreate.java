@@ -19,11 +19,12 @@ public class PaymentCreate {
     private String consumerUid;
     private String comment;
     private String description;
+    private String  externalCode;
 
     public PaymentCreate() {
     }
 
-    public PaymentCreate(String flow, Long amountUnit, String currency, Date expirationDate, String metadata, String callbackUrl, String parentPaymentUid, String consumerId, String consumerUid, String comment, String description) {
+    public PaymentCreate(String flow, Long amountUnit, String currency, Date expirationDate, String metadata, String callbackUrl, String parentPaymentUid, String consumerId, String consumerUid, String comment, String description, String externalCode) {
         this.flow = flow;
         this.amountUnit = amountUnit;
         this.currency = currency;
@@ -35,6 +36,7 @@ public class PaymentCreate {
         this.consumerUid = consumerUid;
         this.comment = comment;
         this.description = description;
+        this.externalCode = externalCode;
     }
 
     /**
@@ -51,20 +53,19 @@ public class PaymentCreate {
 
 
     public static PaymentCreate refund(Long amountUnit, String currency, String metadata, String parentPaymentUid) {
-        return new PaymentCreate(FLOW_REFUND, amountUnit, currency, null, metadata, null, parentPaymentUid,null,null,null,null);
+        return new PaymentCreate(FLOW_REFUND, amountUnit, currency, null, metadata, null, parentPaymentUid,null,null,null,null,null);
     }
 
     public static PaymentCreate matchCode(Long amountUnit, String currency, Date expirationDate, String metadata, String callbackUrl) {
-        return new PaymentCreate(FLOW_MATCH_CODE, amountUnit, currency, expirationDate, metadata, callbackUrl, null,null,null,null,null);
+        return new PaymentCreate(FLOW_MATCH_CODE, amountUnit, currency, expirationDate, metadata, callbackUrl, null,null,null,null,null,null);
     }
 
     public static PaymentCreate matchUser(Long amountUnit, String currency, String consumerUid, String comment) {
-        return new PaymentCreate(MATCH_USER, amountUnit, currency, null, null, null, null, null,consumerUid,comment,null);
+        return new PaymentCreate(MATCH_USER, amountUnit, currency, null, null, null, null, null,consumerUid,comment,null,null);
     }
 
-    // TODO WORKAROUND REMAPPED COMMENT TO DESCRIPTION TAKEAWAY
-    public static PaymentCreate matchUserWorkAround(Long amountUnit, String currency, String consumerUid, String description) {
-        return new PaymentCreate(MATCH_USER, amountUnit, currency, null, null, null, null, null,consumerUid,null,description);
+    public static PaymentCreate matchUserWorkAround(Long amountUnit, String currency, String consumerUid, String externalCode) {
+        return new PaymentCreate(MATCH_USER, amountUnit, currency, null, null, null, null, null,consumerUid,null,null,externalCode);
     }
 
     public String getFlow() {
@@ -138,4 +139,8 @@ public class PaymentCreate {
     public String getDescription() { return description; }
 
     public void setDescription(String description) { this.description = description; }
+
+    public void setExternalCode(String externalCode) { this.externalCode = externalCode; }
+
+    public String getExternalCode() { return externalCode; }
 }
