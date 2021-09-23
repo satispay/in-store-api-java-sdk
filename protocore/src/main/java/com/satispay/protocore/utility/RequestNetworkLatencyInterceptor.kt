@@ -24,7 +24,7 @@ class RequestNetworkLatencyInterceptor: Interceptor{
                 is UnknownHostException,
                 is HttpException -> {
                     ProtoLogger.info("NetworkStatus: [-] ${e.javaClass.simpleName}! ${e.message}")
-                    GlobalScope.launch(Dispatchers.Main.immediate) {
+                    CoroutineScope(Dispatchers.Main.immediate).launch {
                         hasNetworkIssue.value = NetworkResponse.BadNetworkResponse
                     }
                 }

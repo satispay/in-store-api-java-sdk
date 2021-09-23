@@ -1,0 +1,10 @@
+buildscript {
+    ext.kotlinVersion = '1.5.30'
+    repositories {
+        jcenter()
+        maven { url "https://maven.google.com" }
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+    }
+}
