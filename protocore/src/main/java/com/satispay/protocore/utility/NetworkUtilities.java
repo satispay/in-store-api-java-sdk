@@ -46,6 +46,7 @@ public class NetworkUtilities {
         okHttpClientBuilder.connectTimeout(10, TimeUnit.SECONDS);
         okHttpClientBuilder.writeTimeout(10, TimeUnit.SECONDS);
         okHttpClientBuilder.readTimeout(30, TimeUnit.SECONDS);
+        okHttpClientBuilder.addInterceptor( new RequestNetworkLatencyInterceptor());
         return okHttpClientBuilder;
     }
 
@@ -55,6 +56,7 @@ public class NetworkUtilities {
         okHttpClientBuilder.connectTimeout(10, TimeUnit.SECONDS);
         okHttpClientBuilder.writeTimeout(10, TimeUnit.SECONDS);
         okHttpClientBuilder.readTimeout(30, TimeUnit.SECONDS);
+        okHttpClientBuilder.addInterceptor( new RequestNetworkLatencyInterceptor());
         return okHttpClientBuilder;
     }
 

@@ -8,6 +8,7 @@ targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
+
 }
 
 dependencies {
@@ -30,4 +31,7 @@ dependencies {
     // ==> OkHttp
     compile 'com.squareup.okhttp3:okhttp:3.9.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.9.0'
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.7'
 }
