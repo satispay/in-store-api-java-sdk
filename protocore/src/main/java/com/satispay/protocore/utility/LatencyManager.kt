@@ -1,9 +1,9 @@
 package com.satispay.protocore.utility
 
 /*
-finestra di 10 campionamenti
-15 secondi come timeout massimo
-quando la media dei campionamenti supera i 12.75 (calcolato come 15 * 0.85) allora la connessione è lenta
+ *  Sliding time window with 10 values
+ *  15 seconds as the maximum timeout
+ *  When the average of the samples exceeds 12.75 (calculated as 15 * 0.85) then the connection is slow
  */
 
 // Login + First shops page
