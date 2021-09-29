@@ -7,10 +7,9 @@ import okhttp3.Response
 import retrofit2.HttpException
 import java.net.UnknownHostException
 
-private const val MAX_LATENCY = 7500
-
 class RequestNetworkLatencyInterceptor: Interceptor{
 
+    private val latencyManager = LatencyManager()
     private var networkLatency = 0L
 
     @ExperimentalCoroutinesApi
@@ -33,7 +32,8 @@ class RequestNetworkLatencyInterceptor: Interceptor{
         }
         val delay = System.currentTimeMillis() - start
         networkLatency = (networkLatency * 2 + delay) / 3
-        (networkLatency > MAX_LATENCY).also { hasIssue ->
+        latencyManager.addEvent(networkLatency)
+        (latencyManager.isSlowConnection()).also { hasIssue ->
             if (hasIssue) {
                 ProtoLogger.info("NetworkStatus: [-] Latency ${networkLatency}ms")
                 CoroutineScope(Dispatchers.Main.immediate).launch {
