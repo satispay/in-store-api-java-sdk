@@ -140,7 +140,7 @@ public class ProtoCoreHttpClientProvider {
      */
     public OkHttpClient getProtocoreClientNoSignatureVerify(SatispayContext satispayContext) {
 
-        OkHttpClient.Builder clientBuilder = NetworkUtilities.getClientNoCert(satispayContext);
+        OkHttpClient.Builder clientBuilder = NetworkUtilities.getClientNoCert();
         try {
             // ==> the HTTP logging interceptor is added only in DEBUG mode
             if (satispayContext.enableLog()) {

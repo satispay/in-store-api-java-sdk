@@ -50,7 +50,7 @@ public class NetworkUtilities {
         return okHttpClientBuilder;
     }
 
-    public static OkHttpClient.Builder getClientNoCert(SatispayContext satispayContext) {
+    public static OkHttpClient.Builder getClientNoCert() {
         OkHttpClient.Builder okHttpClientBuilder;
         okHttpClientBuilder = new OkHttpClient.Builder();
         okHttpClientBuilder.connectTimeout(10, TimeUnit.SECONDS);

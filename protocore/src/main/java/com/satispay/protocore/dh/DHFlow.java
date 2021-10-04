@@ -12,7 +12,6 @@ import com.satispay.protocore.persistence.SecurePersistenceManager;
 import com.satispay.protocore.utility.NetworkUtilities;
 import rx.Observable;
 import rx.functions.Func1;
-
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
