@@ -13,7 +13,7 @@
 #.idea/dynamic.xml
 #.idea/uiDesigner.xml
 #.idea/kotlinc.xml
-.idea/
+/.idea
 
 *.iml
 *.log
