@@ -7,7 +7,7 @@ Java version ≥ 1.8
 ## Description
 
 This project provides an example JavaFX application to interact with the Satispay in store API.
-More information about the API can be retrived in this documentation: 
+More information about the API can be retrieved in this documentation: 
 
 https://s3-eu-west-1.amazonaws.com/docs.satispay.com/index.html#instore-api
 
@@ -36,7 +36,7 @@ Then, add the library to your module `build.gradle`
 ```gradle
 dependencies {
     // ...
-    compile 'com.github.satispay:in-store-api-java-sdk:0.0.22'
+    compile 'com.github.satispay:in-store-api-java-sdk:0.0.46'
 }
 ```
 

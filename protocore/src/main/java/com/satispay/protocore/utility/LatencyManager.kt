@@ -15,12 +15,22 @@ class LatencyManager(private val window: CircularQueue<Long> = CircularQueue(10)
 
     private val maxAverageValue = MAX_LATENCY * 0.85 // 1083.75ms
 
-    fun addEvent(event: Long){
-        window.add(event)
+    fun addEvent(event: Long):Int {
+        synchronized(this){
+            window.add(event)
+            return window.size
+        }
     }
 
-    fun isSlowConnection() =
-        window.average() > maxAverageValue
+    /***
+    Return a pair with isSlowConnection and teh value of teh average (on last 10 queue)
+     */
+    fun isSlowConnectionWithAverage(): Pair<Double,Boolean> {
+        synchronized(this){
+            val average=window.average()
+            return Pair(average,average > maxAverageValue)
+        }
+    }
 
     companion object{
         private const val MAX_LATENCY = 1275 // iOS: 12750 // magic number: 15 * 0.85 = 12,7
