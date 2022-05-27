@@ -8,6 +8,7 @@ import com.satispay.protocore.models.transactions.TransactionProposal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 import static com.satispay.protocore.models.transactions.TransactionProposal.TYPE_PAYMENT;
 import static com.satispay.protocore.models.transactions.TransactionProposal.TYPE_REQUEST;
@@ -155,24 +156,38 @@ public class Payment {
 
     public TransactionProposal toTransactionProposal() {
         DailyClosure dailyClosure = getDailyClosure();
-        Sender sender = getSender();
-
         Shop shop = new Shop();
+        Consumer consumer = new Consumer();
+        Sender sender = getSender();
         Receiver receiver = getReceiver();
         if (receiver != null) {
-            shop.setId(receiver.getId());
-            shop.setType(receiver.getType());
+            if(Objects.equals(receiver.getType(), "SHOP")) {
+                shop.setId(receiver.getId());
+                shop.setType(receiver.getType());
+            } else if (Objects.equals(receiver.getType(), "CONSUMER")) {
+                consumer.setId(receiver.getId());
+                consumer.setName(receiver.getName());
+                try {
+                    String imageUrl = receiver.getProfilePictures().getData().get(0).getUrl();
+                    consumer.setImageUrl(imageUrl);
+                } catch (Exception e) {
+                    // ignore missing url
+                }
+            }
         }
-
-        Consumer consumer = new Consumer();
         if (sender != null) {
-            consumer.setId(sender.getId());
-            consumer.setName(sender.getName());
-            try {
-                String imageUrl = sender.getProfilePictures().getData().get(0).getUrl();
-                consumer.setImageUrl(imageUrl);
-            } catch (Exception e) {
-                // ignore missing url
+            if(Objects.equals(sender.getType(), "SHOP")) {
+                shop.setId(sender.getId());
+                shop.setType(sender.getType());
+            } else if (Objects.equals(sender.getType(), "CONSUMER")) {
+                consumer.setId(sender.getId());
+                consumer.setName(sender.getName());
+                try {
+                    String imageUrl = sender.getProfilePictures().getData().get(0).getUrl();
+                    consumer.setImageUrl(imageUrl);
+                } catch (Exception e) {
+                    // ignore missing url
+                }
             }
         }
 
@@ -247,24 +262,40 @@ public class Payment {
     public class Receiver {
         public Receiver() {
         }
-
         private String id;
         private String type;
-
+        private String name;
+        private String surname;
+        private PaginatedList<ProfilePicture> profilePictures;
         public String getId() {
             return id;
         }
-
         public void setId(String id) {
             this.id = id;
         }
-
         public String getType() {
             return type;
         }
-
         public void setType(String type) {
             this.type = type;
+        }
+        public String getName() {
+            return name;
+        }
+        public void setName(String name) {
+            this.name = name;
+        }
+        public PaginatedList<ProfilePicture> getProfilePictures() {
+            return profilePictures;
+        }
+        public void setProfilePictures(PaginatedList<ProfilePicture> profilePictures) {
+            this.profilePictures = profilePictures;
+        }
+        public String getSurname() {
+            return surname;
+        }
+        public void setSurname(String surname) {
+            this.surname = surname;
         }
     }
 
