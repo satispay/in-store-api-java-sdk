@@ -7,13 +7,10 @@ import kotlinx.coroutines.flow.debounce
 
 private const val NETWORK_ISSUE_THRESHOLD: Long = 1000
 
-@ExperimentalCoroutinesApi
+
 val hasNetworkIssue = MutableStateFlow<NetworkResponse>(NetworkResponse.OnNetworkResponse)
-@ExperimentalCoroutinesApi
 val showNetworkIssue = MutableStateFlow(false).also { init() }
 
-@ExperimentalCoroutinesApi
-@OptIn(FlowPreview::class)
 private fun init() {
     CoroutineScope(Dispatchers.Main.immediate).launch {
         hasNetworkIssue
@@ -24,7 +21,6 @@ private fun init() {
     }
 }
 
-@ExperimentalCoroutinesApi
 fun hideNetworkIssue() = CoroutineScope(Dispatchers.Main.immediate).launch {
     showNetworkIssue.value = false
 }

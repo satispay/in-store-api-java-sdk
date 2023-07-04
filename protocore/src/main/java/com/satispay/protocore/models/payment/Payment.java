@@ -37,6 +37,8 @@ public class Payment {
     private String flow;
     private String description;
     private String comment;
+    private PaymentMethods payment_methods;
+    private PaymentOptions payment_options;
 
     public String getId() {
         return id;
@@ -153,6 +155,22 @@ public class Payment {
     public String getDescription() { return description; }
 
     public void setDescription(String description) { this.description = description; }
+
+    public PaymentMethods getPaymentMethods() {
+        return payment_methods;
+    }
+
+    public void setPaymentMethods(PaymentMethods paymentMethods) {
+        this.payment_methods = paymentMethods;
+    }
+
+    public PaymentOptions getPaymentOptions() {
+        return payment_options;
+    }
+
+    public void setPaymentMethods(PaymentOptions paymentOptions) {
+        this.payment_options = paymentOptions;
+    }
 
     public TransactionProposal toTransactionProposal() {
         DailyClosure dailyClosure = getDailyClosure();

@@ -3,7 +3,9 @@ package com.satispay.protocore.models.profile;
 import com.satispay.protocore.models.generic.AddressV1;
 import com.satispay.protocore.models.generic.ImageV1;
 import com.satispay.protocore.models.generic.LocationV1;
+import com.satispay.protocore.models.generic.ProfilePaymentMethods;
 import com.satispay.protocore.models.generic.Settings;
+import com.satispay.protocore.models.payment.PaymentMethods;
 
 import java.util.ArrayList;
 
@@ -20,6 +22,8 @@ public class ProfileMeV1 {
     private String model;
     private String qrCodeIdentifier;
     private Settings businessAppSettings;
+    private ProfilePaymentMethods paymentMethods;
+
 
     public ProfileMeV1() { }
 
@@ -131,6 +135,10 @@ public class ProfileMeV1 {
     public Settings getBusinessAppSettings() { return businessAppSettings; }
 
     public void setBusinessAppSettings(Settings businessAppSettings) { this.businessAppSettings = businessAppSettings; }
+
+    public ProfilePaymentMethods getProfilePaymentMethods() { return paymentMethods; }
+
+    public void setProfilePaymentMethods(ProfilePaymentMethods paymentMethods) { this.paymentMethods = paymentMethods; }
 
     public Boolean isImplicitAcceptance(){
         return acceptance != null && this.acceptance.equals("IMPLICIT");
