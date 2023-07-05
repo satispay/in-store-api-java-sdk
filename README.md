@@ -1,7 +1,6 @@
 # in-store-api-java-sdk
 
-[![Release](https://jitpack.io/v/User/Repo.svg)]
-(https://jitpack.io/satispay/in-store-api-java-sdk)
+[![Release](https://jitpack.io/v/satispay/in-store-api-java-sdk.svg)](https://jitpack.io/#satispay/in-store-api-java-sdk)
 
 ## Requirements
 
