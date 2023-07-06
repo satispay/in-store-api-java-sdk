@@ -57,7 +57,7 @@ public class PaymentUpdate {
         return new PaymentUpdate(ACTION_ACCEPT, null, null, null);
     }
 
-    public static PaymentUpdate acceptWithMealVoucherAmount(int mealVoucherAmountUnit) {
+    public static PaymentUpdate acceptWithMealVoucherAmount(long mealVoucherAmountUnit) {
         return acceptWithMealVoucherAmountAndPaymentOptions(mealVoucherAmountUnit, null);
     }
 
@@ -65,7 +65,7 @@ public class PaymentUpdate {
         return acceptWithMealVoucherNumberAndPaymentOptions(mealVoucherNumber, null);
     }
 
-    public static PaymentUpdate acceptWithMealVoucherAmountAndPaymentOptions(int mealVoucherAmountUnit, PaymentOptions paymentOptions) {
+    public static PaymentUpdate acceptWithMealVoucherAmountAndPaymentOptions(long mealVoucherAmountUnit, PaymentOptions paymentOptions) {
         PaymentMethods paymentMethods = new PaymentMethods(new MealVoucher(mealVoucherAmountUnit, 0));
         return new PaymentUpdate(ACTION_ACCEPT, null, paymentMethods, paymentOptions);
     }
