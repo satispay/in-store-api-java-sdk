@@ -7,7 +7,7 @@ public class PaymentUpdate {
     private String action;
     private String metadata;
 
-    private PaymentMethods payment_method_options;
+    private PaymentMethods payment_methods_options;
 
     private PaymentOptions payment_options;
 
@@ -17,7 +17,7 @@ public class PaymentUpdate {
     public PaymentUpdate(String action, String metadata, PaymentMethods paymentMethods, PaymentOptions paymentOptions) {
         this.action = action;
         this.metadata = metadata;
-        this.payment_method_options = paymentMethods;
+        this.payment_methods_options = paymentMethods;
         this.payment_options = paymentOptions;
     }
 
@@ -38,11 +38,11 @@ public class PaymentUpdate {
     }
 
     public PaymentMethods getPaymentMethods() {
-        return payment_method_options;
+        return payment_methods_options;
     }
 
     public void setPaymentMethods(PaymentMethods paymentMethods) {
-        this.payment_method_options = paymentMethods;
+        this.payment_methods_options = paymentMethods;
     }
 
     public PaymentOptions getPaymentOptions() {
