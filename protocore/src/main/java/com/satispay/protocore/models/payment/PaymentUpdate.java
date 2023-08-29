@@ -7,7 +7,7 @@ public class PaymentUpdate {
     private String action;
     private String metadata;
 
-    private PaymentMethods payment_methods_options;
+    private PaymentMethods payment_method_options;
 
     private PaymentOptions payment_options;
 
@@ -17,7 +17,7 @@ public class PaymentUpdate {
     public PaymentUpdate(String action, String metadata, PaymentMethods paymentMethods, PaymentOptions paymentOptions) {
         this.action = action;
         this.metadata = metadata;
-        this.payment_methods_options = paymentMethods;
+        this.payment_method_options = paymentMethods;
         this.payment_options = paymentOptions;
     }
 
@@ -38,11 +38,11 @@ public class PaymentUpdate {
     }
 
     public PaymentMethods getPaymentMethods() {
-        return payment_methods_options;
+        return payment_method_options;
     }
 
     public void setPaymentMethods(PaymentMethods paymentMethods) {
-        this.payment_methods_options = paymentMethods;
+        this.payment_method_options = paymentMethods;
     }
 
     public PaymentOptions getPaymentOptions() {
@@ -66,7 +66,7 @@ public class PaymentUpdate {
     }
 
     public static PaymentUpdate acceptWithMealVoucherAmountAndPaymentOptions(long mealVoucherAmountUnit, PaymentOptions paymentOptions) {
-        PaymentMethods paymentMethods = new PaymentMethods(new MealVoucher(mealVoucherAmountUnit, 0));
+        PaymentMethods paymentMethods = new PaymentMethods(new MealVoucher(mealVoucherAmountUnit));
         return new PaymentUpdate(ACTION_ACCEPT, null, paymentMethods, paymentOptions);
     }
 
@@ -89,7 +89,7 @@ public class PaymentUpdate {
 
 }
 
-//"payment_methods_options": {
+//"payment_method_options": {
 //    "meal_voucher": {
 //        "enable": true,
 //        "max_amount_unit": 48,

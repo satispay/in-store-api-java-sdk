@@ -8,6 +8,10 @@ public class MealVoucher {
 
     public int max_number;
 
+    public MealVoucher(long maxAmountUnit) {
+        max_amount_unit = maxAmountUnit;
+    }
+
     public MealVoucher(long maxAmountUnit, int maxNumber) {
         max_amount_unit = maxAmountUnit;
         max_number = maxNumber;
