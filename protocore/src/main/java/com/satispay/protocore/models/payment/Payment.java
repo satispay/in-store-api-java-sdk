@@ -22,6 +22,7 @@ public class Payment {
 
     private String id;
     private String type;
+    private String code_identifier;
     private long amountUnit;
     private String currency;
     private String status;
@@ -54,6 +55,14 @@ public class Payment {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getCodeIdentifier() {
+        return code_identifier;
+    }
+
+    public void setCodeIdentifier(String code_identifier) {
+        this.code_identifier = code_identifier;
     }
 
     public long getAmountUnit() {
