@@ -39,6 +39,7 @@ public class Payment {
     private String description;
     private String comment;
     private PaymentMethods payment_methods;
+    private PaymentMethods payment_methods_options;
     private PaymentOptions payment_options;
 
     public String getId() {
@@ -171,6 +172,14 @@ public class Payment {
 
     public void setPaymentMethods(PaymentMethods paymentMethods) {
         this.payment_methods = paymentMethods;
+    }
+
+    public PaymentMethods getPaymentMethodsOptions() {
+        return payment_methods_options;
+    }
+
+    public void setPaymentMethodsOptions(PaymentMethods payment_methods_options) {
+        this.payment_methods_options = payment_methods_options;
     }
 
     public PaymentOptions getPaymentOptions() {
