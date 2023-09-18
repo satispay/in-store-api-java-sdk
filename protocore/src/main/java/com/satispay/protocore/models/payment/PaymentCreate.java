@@ -20,13 +20,13 @@ public class PaymentCreate {
     private String comment;
     private String description;
     private String externalCode;
-    private PaymentMethods payment_methods_options;
+    private PaymentMethods payment_method_options;
     private PaymentOptions payment_options;
 
     public PaymentCreate() {
     }
 
-    public PaymentCreate(String flow, Long amountUnit, String currency, Date expirationDate, String metadata, String callbackUrl, String parentPaymentUid, String consumerId, String consumerUid, String comment, String description, String externalCode, PaymentMethods paymentMethodsOptions, PaymentOptions paymentOptions) {
+    public PaymentCreate(String flow, Long amountUnit, String currency, Date expirationDate, String metadata, String callbackUrl, String parentPaymentUid, String consumerId, String consumerUid, String comment, String description, String externalCode, PaymentMethods paymentMethodOptions, PaymentOptions paymentOptions) {
         this.flow = flow;
         this.amountUnit = amountUnit;
         this.currency = currency;
@@ -39,7 +39,7 @@ public class PaymentCreate {
         this.comment = comment;
         this.description = description;
         this.externalCode = externalCode;
-        this.payment_methods_options = paymentMethodsOptions;
+        this.payment_method_options = paymentMethodOptions;
         this.payment_options = paymentOptions;
     }
 
@@ -66,8 +66,8 @@ public class PaymentCreate {
      * @param callbackUrl    The url that will be called when the Payment changes state. When url is called a Get payment details can be called to know the new Payment status. Note that {uuid} will be replaced with the Payment ID
      */
 
-    public static PaymentCreate matchCode(Long amountUnit, String currency, Date expirationDate, String metadata, String callbackUrl, PaymentMethods paymentMethodsOptions, PaymentOptions paymentOptions) {
-        return new PaymentCreate(FLOW_MATCH_CODE, amountUnit, currency, expirationDate, metadata, callbackUrl, null, null, null, null, null, null, paymentMethodsOptions, paymentOptions);
+    public static PaymentCreate matchCode(Long amountUnit, String currency, Date expirationDate, String metadata, String callbackUrl, PaymentMethods paymentMethodOptions, PaymentOptions paymentOptions) {
+        return new PaymentCreate(FLOW_MATCH_CODE, amountUnit, currency, expirationDate, metadata, callbackUrl, null, null, null, null, null, null, paymentMethodOptions, paymentOptions);
     }
 
     /**
@@ -79,8 +79,8 @@ public class PaymentCreate {
      * @param comment     Sent to the user
      */
 
-    public static PaymentCreate matchUser(Long amountUnit, String currency, String consumerUid, String comment, PaymentMethods paymentMethodsOptions, PaymentOptions paymentOptions) {
-        return new PaymentCreate(MATCH_USER, amountUnit, currency, null, null, null, null, null, consumerUid, comment, null, null, paymentMethodsOptions, paymentOptions);
+    public static PaymentCreate matchUser(Long amountUnit, String currency, String consumerUid, String comment, PaymentMethods paymentMethodOptions, PaymentOptions paymentOptions) {
+        return new PaymentCreate(MATCH_USER, amountUnit, currency, null, null, null, null, null, consumerUid, comment, null, null, paymentMethodOptions, paymentOptions);
     }
 
     /**
@@ -93,8 +93,8 @@ public class PaymentCreate {
      * @param externalCode
      */
 
-    public static PaymentCreate matchUserWorkAround(Long amountUnit, String currency, String consumerUid, String description, String externalCode, PaymentMethods paymentMethodsOptions, PaymentOptions paymentOptions) {
-        return new PaymentCreate(MATCH_USER, amountUnit, currency, null, null, null, null, null, consumerUid, null, description, externalCode, paymentMethodsOptions, paymentOptions);
+    public static PaymentCreate matchUserWorkAround(Long amountUnit, String currency, String consumerUid, String description, String externalCode, PaymentMethods paymentMethodOptions, PaymentOptions paymentOptions) {
+        return new PaymentCreate(MATCH_USER, amountUnit, currency, null, null, null, null, null, consumerUid, null, description, externalCode, paymentMethodOptions, paymentOptions);
     }
 
     public String getFlow() {
@@ -193,12 +193,12 @@ public class PaymentCreate {
         return externalCode;
     }
 
-    public PaymentMethods getPaymentMethodsOptions() {
-        return payment_methods_options;
+    public PaymentMethods getPaymentMethodOptions() {
+        return payment_method_options;
     }
 
-    public void setPaymentMethodsOptions(PaymentMethods paymentMethodsOptions) {
-        this.payment_methods_options = paymentMethodsOptions;
+    public void setPaymentMethodOptions(PaymentMethods paymentMethodOptions) {
+        this.payment_method_options = paymentMethodOptions;
     }
 
     public PaymentOptions getPaymentOptions() {
